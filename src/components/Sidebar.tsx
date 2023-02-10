@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import logo from "/sitelogo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
@@ -13,7 +13,10 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageIcon from "@mui/icons-material/Message";
 import SidebarOption from "./SidebarOption";
 
-function Sidebar() {
+function Sidebar(props: {
+  showUsers: boolean;
+  setShowUsers: Dispatch<SetStateAction<boolean>>;
+}) {
   const [expandSidebar, setExpandSidebar] = useState(false);
 
   return (
@@ -49,9 +52,24 @@ function Sidebar() {
         >
           <SidebarOption
             text="Search "
+            hidden={true}
             expandSidebar={expandSidebar}
             Icon={<SearchIcon />}
           />
+
+          <div
+            onClick={() => props.setShowUsers(!props.showUsers)}
+            className={` 
+
+     phoneBug:hidden flex items-center phoneBug:mt-7  scale-110  mt-0  cursor-pointer
+    
+   `}
+          >
+            <IconButton>
+              <SearchIcon />
+            </IconButton>
+          </div>
+
           <SidebarOption
             text="Explore"
             hidden={true}
@@ -84,7 +102,7 @@ function Sidebar() {
         </div>
 
         <div
-          className={`  mt-auto phoneBug:mb-6 ml-6
+          className={`  mt-auto phoneBug:mb-6 ml-6 phoneBug:ml-0
     ${expandSidebar ? "scale-125  " : "scale-110 "} 
     
    `}

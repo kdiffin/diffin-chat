@@ -10,7 +10,7 @@ function SidebarOption(props: {
 }) {
   return (
     <div
-      className={` 
+      className={` pointer-events-auto
      flex items-center phoneBug:mt-7 ${
        props.hidden ? "hidden phoneBug:flex ml-6 phoneBug:ml-0" : ""
      }   mt-0  cursor-pointer
