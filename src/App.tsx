@@ -6,14 +6,11 @@ import Users from "./components/Users";
 
 function App() {
   return (
-    <div className="App flex flex-col   bg-zinc-800  min-h-screen">
-      <div className="flex  bg-zinc-800 flex-1">
+    <div className="App  h-screen  phoneBug:flex phoneBug:flex-col   bg-zinc-800  ">
+      <div className=" phoneBug:flex phoneBug:flex-1">
         <Sidebar />
-        <div className=" flex  flex-1  ">
-          <Chat />{" "}
-        </div>
+        <Chat />
       </div>
-
       <Users />
     </div>
   );

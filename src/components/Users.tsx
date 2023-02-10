@@ -9,9 +9,8 @@ function Users() {
   };
 
   return (
-    <div className=" border-t-2 flex       border-zinc-700 bg-zinc-900/40 w-full">
+    <div className=" border-t-2 flex absolute bottom-0 opacity-0 phoneBug:relative phoneBug:opacity-100      border-zinc-700 bg-zinc-900/40 w-full">
       <Tabs
-        className="w-full flex-1 "
         variant="scrollable"
         scrollButtons
         value={value}

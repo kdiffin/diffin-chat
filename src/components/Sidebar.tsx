@@ -18,17 +18,20 @@ function Sidebar() {
 
   return (
     <div
-      className={` transition-all  bg-zinc-900/40  ease-in-out  duration-700  ${
-        expandSidebar ? "flex-[0.2]" : "flex-[0]"
-      }`}
+      className={` transition-all z-10 absolute phoneBug:relative bottom-0
+        bg-zinc-900/40  ease-in-out  duration-700  ${
+          expandSidebar ? "flex-[0.2]" : "flex-[0]"
+        }`}
     >
       <div
-        className={` relative  h-full    transition delay-1000  bg-zinc-900/40   grid-cols-2 
-        ${expandSidebar ? "py-8 px-16" : " items-center px-3   py-10"} 
-        flex flex-col   p-5 `}
+        className={` relative w-screen phoneBug:w-auto phoneBug:h-full
+         justify-center phoneBug:justify-start   phoneBug:pb-0  
+             transition delay-1000  bg-zinc-900/40   grid-cols-2 
+        ${expandSidebar ? "py-8 px-16" : " items-center px-3   phoneBug:py-10"} 
+        flex phoneBug:flex-col flex-wrap   p-5 `}
       >
         <div
-          className={` 
+          className={` phoneBug:mt-0 mr-6 phoneBug:mr-0 mt-auto
         ${expandSidebar ? "scale-125 " : "scale-110"} 
         
        `}
@@ -39,7 +42,11 @@ function Sidebar() {
           </IconButton>
         </div>
 
-        <div className={`  ${expandSidebar ? " mt-16  " : "  mt-12 "} `}>
+        <div
+          className={` flex gap-5 phoneBug:gap-0 flex-wrap  phoneBug:flex-col ${
+            expandSidebar ? " phoneBug:mt-16  " : "  phoneBug:mt-12 "
+          } `}
+        >
           <SidebarOption
             text="Search "
             expandSidebar={expandSidebar}
@@ -47,11 +54,13 @@ function Sidebar() {
           />
           <SidebarOption
             text="Explore"
+            hidden={true}
             expandSidebar={expandSidebar}
             Icon={<ExploreIcon />}
           />
           <SidebarOption
             text="Videos "
+            hidden={true}
             expandSidebar={expandSidebar}
             Icon={<SlowMotionVideoIcon />}
           />
@@ -62,18 +71,20 @@ function Sidebar() {
           />
           <SidebarOption
             text="Likes "
+            hidden={true}
             expandSidebar={expandSidebar}
             Icon={<FavoriteBorderIcon />}
           />
           <SidebarOption
             text="Create "
             expandSidebar={expandSidebar}
+            hidden={true}
             Icon={<AddCircleOutlineIcon />}
           />
         </div>
 
         <div
-          className={`  mt-auto
+          className={`  mt-auto phoneBug:mb-6 ml-6
     ${expandSidebar ? "scale-125  " : "scale-110 "} 
     
    `}

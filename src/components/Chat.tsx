@@ -11,17 +11,17 @@ function Chat() {
   }
 
   return (
-    <div className="flex-1 flex bg-zinc-800 flex-col">
+    <div className="flex-1 flex  bg-zinc-800  flex-col">
       <ChatHeader />
 
       {/* this is where the messages  go */}
-      <div className="flex-1 bg-zinc-900/10 p-5 pb-2 flex flex-col">
+      <div className="flex-1 bg-zinc-900/10  p-5 pb-2 flex flex-col">
         <div className="flex-1">ya</div>
 
-        <div className="bg-zinc-900/40 p-2  rounded-lg text-white ">
+        <div className="bg-zinc-900/40 p-2   rounded-lg text-white ">
           <div className="pl-4  rounded-3xl  flex p-3 md:p-4 ">
             <Create />
-            <form className="flex   w-full ">
+            <form className="flex    ">
               <input
                 spellCheck="false"
                 type="text"

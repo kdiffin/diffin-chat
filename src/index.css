@@ -20,9 +20,12 @@
 }
 
 @layer base {
+  * {
+  }
+
   html,
   body {
-    background-color: rgba(24, 24, 27) !important;
+    overflow: hidden;
   }
   *::-webkit-scrollbar {
     width: 10px;
@@ -47,6 +50,10 @@
 }
 
 @layer utilities {
+  #root {
+    width: 100%;
+    flex: 1;
+  }
   .App {
   }
 }
