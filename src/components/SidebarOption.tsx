@@ -9,7 +9,7 @@ function SidebarOption(props: {
   hidden?: boolean;
 }) {
   return (
-    <div className="scale-110 mt-7">
+    <div className=" mt-6">
       {" "}
       <IconButton>{props.Icon}</IconButton>
       {props.expandSidebar ? <p>{props.text}</p> : <></>}

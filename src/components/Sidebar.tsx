@@ -18,7 +18,7 @@ function Sidebar() {
 
   return (
     <div className="flex  bg-zinc-900/40 ease-in-out      duration-700  py-10 items-center flex-col">
-      <div className=" scale-110">
+      <div className=" ">
         <IconButton>
           {" "}
           <DeblurIcon />
@@ -59,7 +59,7 @@ function Sidebar() {
         />
       </div>
 
-      <div className=" mt-auto scale-110">
+      <div className=" mt-auto ">
         {" "}
         <IconButton
           onClick={() =>
