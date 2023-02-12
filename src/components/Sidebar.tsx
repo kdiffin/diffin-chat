@@ -13,57 +13,61 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageIcon from "@mui/icons-material/Message";
 import SidebarOption from "./SidebarOption";
 
-function Sidebar() {
-  const [expandSidebar, setExpandSidebar] = useState(false);
-
+function Sidebar(props: {
+  expandSidebar: boolean;
+  setExpandSidebar: Dispatch<SetStateAction<boolean>>;
+}) {
   return (
-    <div className="flex  bg-zinc-900/40 ease-in-out      duration-700  py-10 items-center flex-col">
-      <div className=" ">
+    <div
+      className={`flex  bg-zinc-900/40    py-10
+       ${props.expandSidebar ? "pl-14" : "items-center"} flex-col`}
+    >
+      <div className={`${props.expandSidebar ? " scale-110" : ""}`}>
         <IconButton>
           {" "}
           <DeblurIcon />
         </IconButton>
       </div>
 
-      <div className="mt-12">
+      <div className={`mt-12 ${props.expandSidebar ? " mt-16" : ""}`}>
         <SidebarOption
           text="Search "
-          expandSidebar={expandSidebar}
+          expandSidebar={props.expandSidebar}
           Icon={<SearchIcon />}
         />
 
         <SidebarOption
           text="Explore"
-          expandSidebar={expandSidebar}
+          expandSidebar={props.expandSidebar}
           Icon={<ExploreIcon />}
         />
         <SidebarOption
           text="Videos "
-          expandSidebar={expandSidebar}
+          expandSidebar={props.expandSidebar}
           Icon={<SlowMotionVideoIcon />}
         />
         <SidebarOption
           text="Messages "
-          expandSidebar={expandSidebar}
+          expandSidebar={props.expandSidebar}
           Icon={<MessageIcon />}
         />
         <SidebarOption
           text="Likes "
-          expandSidebar={expandSidebar}
+          expandSidebar={props.expandSidebar}
           Icon={<FavoriteBorderIcon />}
         />
         <SidebarOption
           text="Create "
-          expandSidebar={expandSidebar}
+          expandSidebar={props.expandSidebar}
           Icon={<AddCircleOutlineIcon />}
         />
       </div>
 
-      <div className=" mt-auto ">
+      <div className={` mt-auto ${props.expandSidebar ? " scale-110" : ""}`}>
         {" "}
         <IconButton
           onClick={() =>
-            setExpandSidebar((expandSidebar) =>
+            props.setExpandSidebar((expandSidebar) =>
               window.innerWidth > 900 ? !expandSidebar : false
             )
           }

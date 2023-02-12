@@ -9,10 +9,18 @@ function SidebarOption(props: {
   hidden?: boolean;
 }) {
   return (
-    <div className=" mt-6">
+    <div
+      className={` mt-6 flex ${
+        props.expandSidebar ? " scale-110" : ""
+      } items-center`}
+    >
       {" "}
       <IconButton>{props.Icon}</IconButton>
-      {props.expandSidebar ? <p>{props.text}</p> : <></>}
+      {props.expandSidebar ? (
+        <p className="active:scale-90 text-sm">{props.text}</p>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

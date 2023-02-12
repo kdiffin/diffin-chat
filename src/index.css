@@ -50,8 +50,15 @@
 @layer utilities {
   .app {
     display: grid;
-    grid-template-columns: 60px auto;
     grid-template-rows: 14fr 1fr;
+  }
+
+  .closedSidebar {
+    grid-template-columns: 60px auto;
+  }
+
+  .openSidebar {
+    grid-template-columns: 1fr 5fr;
   }
 
   .overflow-overlay {
