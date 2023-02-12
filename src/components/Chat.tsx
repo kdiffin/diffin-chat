@@ -1,7 +1,7 @@
-import { Create } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import React, { useState } from "react";
 import ChatHeader from "./ChatHeader";
+import ChatFooter from "./ChatFooter";
 
 function Chat() {
   const [input, setInput] = useState("");
@@ -11,32 +11,55 @@ function Chat() {
   }
 
   return (
-    <div className="flex-1 flex  h-[100%]  bg-zinc-800  flex-col">
+    <div className="chat__container   overflow-overlay   col-span-1 ">
       <ChatHeader />
 
       {/* this is where the messages  go */}
-      <div className="flex-1 bg-zinc-900/10  p-2 phoneBug:p-5 pb-2 flex flex-col">
-        <div className="flex-1 ">ya</div>
 
-        <div className="bg-zinc-900/40 p-2   rounded-lg text-white ">
-          <div className="pl-4  rounded-3xl  flex p-3 md:p-4 ">
-            <Create />
-            <form className="flex    ">
-              <input
-                spellCheck="false"
-                type="text"
-                className="border-0 bg-transparent flex-1 ml-2 outline-none font-semibold "
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Submit a post"
-              />
-              <button type="submit" className=" hidden" onClick={sendPost}>
-                send
-              </button>
-            </form>
-          </div>
-        </div>
+      <div className="px-6 p-1 relative ">
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
+        <p>a</p>
       </div>
+
+      <ChatFooter input={input} setInput={setInput} sendPost={sendPost} />
     </div>
   );
 }

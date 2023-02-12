@@ -20,19 +20,16 @@
 }
 
 @layer base {
+  body {
+    background-color: rgb(39 39 42);
+  }
   * {
     -webkit-tap-highlight-color: transparent;
   }
 
-  html,
-  body {
-    overflow: hidden;
-  }
   *::-webkit-scrollbar {
-    width: 10px;
+    width: 7px;
     height: 6px;
-
-    overscroll-behavior-y: none;
   }
 
   *::-webkit-scrollbar-track {
@@ -51,10 +48,13 @@
 }
 
 @layer utilities {
-  #root {
-    width: 100%;
-    flex: 1;
+  .app {
+    display: grid;
+    grid-template-columns: 60px auto;
+    grid-template-rows: 14fr 1fr;
   }
-  .App {
+
+  .overflow-overlay {
+    overflow: overlay;
   }
 }
