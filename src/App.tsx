@@ -10,7 +10,7 @@ function App() {
 
   return (
     <div
-      className={` dark:bg-zinc-800 dark:text-white  bg-zinc-100 text-zinc-700  app  transition duration-300
+      className={` dark:bg-zinc-800 dark:text-white  bg-zinc-200/50 text-zinc-700  app  transition duration-300
       ${expandSidebar ? "openSidebar" : " closedSidebar"}  h-screen `}
     >
       <Sidebar
