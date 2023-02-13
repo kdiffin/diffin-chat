@@ -10,7 +10,7 @@ function SidebarOption(props: {
 }) {
   return (
     <div
-      className={` mt-6 flex ${
+      className={` mt-6 flex  ${
         props.expandSidebar ? " scale-110" : ""
       } items-center`}
     >

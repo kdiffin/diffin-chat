@@ -1,4 +1,4 @@
-import { Search } from "@mui/icons-material";
+import { DarkMode, LightMode, Search } from "@mui/icons-material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -16,10 +16,12 @@ import SidebarOption from "./SidebarOption";
 function Sidebar(props: {
   expandSidebar: boolean;
   setExpandSidebar: Dispatch<SetStateAction<boolean>>;
+  setDarkMode: any;
+  darkMode: boolean | VoidFunction;
 }) {
   return (
     <div
-      className={`flex  bg-zinc-900/40    py-10
+      className={`flex  dark:bg-zinc-900/40 dark:border-none border-r-zinc-300 border-r-2    py-10
        ${props.expandSidebar ? "pl-14" : "items-center"} flex-col`}
     >
       <div className={`${props.expandSidebar ? " scale-110" : ""}`}>
@@ -61,6 +63,23 @@ function Sidebar(props: {
           expandSidebar={props.expandSidebar}
           Icon={<AddCircleOutlineIcon />}
         />
+        {props.darkMode ? (
+          <div onClick={props.setDarkMode}>
+            <SidebarOption
+              text="Light Mode "
+              expandSidebar={props.expandSidebar}
+              Icon={<LightMode />}
+            />
+          </div>
+        ) : (
+          <div onClick={props.setDarkMode}>
+            <SidebarOption
+              text="Dark Mode "
+              expandSidebar={props.expandSidebar}
+              Icon={<DarkMode />}
+            />
+          </div>
+        )}
       </div>
 
       <div className={` mt-auto ${props.expandSidebar ? " scale-110" : ""}`}>

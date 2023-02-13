@@ -8,6 +8,7 @@ function Chat() {
 
   function sendPost(e: any) {
     e.preventDefault();
+    console.log(input);
   }
 
   return (

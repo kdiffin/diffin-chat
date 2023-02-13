@@ -7,8 +7,6 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: rgba(255, 255, 255, 0.87);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -16,13 +14,18 @@
   -webkit-text-size-adjust: 100%;
 }
 .MuiIconButton-root {
-  color: white !important;
+  color: inherit !important;
 }
 
 @layer base {
-  body {
+  html:has(.dark) body {
     background-color: rgb(39 39 42);
   }
+
+  body {
+    background-color: rgb(244 244 245);
+  }
+
   * {
     -webkit-tap-highlight-color: transparent;
   }
@@ -32,10 +35,9 @@
     height: 6px;
   }
 
-  *::-webkit-scrollbar-track {
-    border-radius: 100vh;
-
+  html:has(.dark) *::-webkit-scrollbar-track {
     height: 10px;
+
     background-color: rgb(39 39 42);
   }
 

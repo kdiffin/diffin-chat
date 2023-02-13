@@ -7,8 +7,11 @@ function ChatFooter(props: {
   setInput: Dispatch<SetStateAction<string>>;
 }) {
   return (
-    <div className=" bg-zinc-800 p-1 pb-3  z-10  sticky bottom-0  flex items-center justify-center">
-      <div className=" p-2 my- bg-[#212124] sticky bottom w-[96%]   rounded-lg text-white ">
+    <div
+      className=" dark:bg-zinc-800  bg-zinc-100 p-1  pb-3  z-10
+      sticky bottom-0  flex items-center justify-center"
+    >
+      <div className=" p-2 my- dark:bg-[#212124] sticky bottom w-[96%] border-2 dark:border-none   rounded-lg dark:text-white ">
         <div className="  rounded-3xl  flex p-3  ">
           <Create />
           <form className="flex flex-1    ">

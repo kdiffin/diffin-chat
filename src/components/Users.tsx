@@ -9,7 +9,7 @@ function Users() {
   };
 
   return (
-    <div className="col-span-full w-screen bg-zinc-900/40 ">
+    <div className="col-span-full w-screen  border-t-zinc-300 border-t-2 dark:border-none dark:bg-zinc-900/40 ">
       <Tabs
         variant="scrollable"
         scrollButtons

@@ -5,8 +5,9 @@ import React from "react";
 function ChatHeader() {
   return (
     <div
-      className=" flex  bg-[#212124] z-10  h-12 
-        top-0 sticky  p-4 py-7   border-b-2 border-zinc-700   items-center justify-between "
+      className=" flex  dark:bg-[#212124] z-10  h-12 border-b-zinc-300 
+      bg-zinc-100
+        top-0 sticky  p-4 py-7   border-b-2 dark:border-zinc-700   items-center justify-between "
     >
       <div className="flex items-center">
         <Avatar sx={{ width: 34, height: 34 }} />{" "}
