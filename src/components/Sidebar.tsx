@@ -87,7 +87,7 @@ function Sidebar(props: {
         <IconButton
           onClick={() =>
             props.setExpandSidebar((expandSidebar) =>
-              window.innerWidth > 900 ? !expandSidebar : false
+              window.innerWidth > 1200 ? !expandSidebar : false
             )
           }
         >
