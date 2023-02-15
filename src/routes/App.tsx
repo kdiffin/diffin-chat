@@ -7,21 +7,20 @@ import UseDarkMode from "../custom-hooks/UseDarkMode";
 import { SignInWithPopupHook, useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "../firebase";
 
-type Any = {
-  firebaseAuth: any;
-};
-
 function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
   const [darkMode, setDarkMode] = UseDarkMode();
   const [user, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
 
+  //todos: add logout button on sidebar
+  //make it so that it pushes a user to ur db when u click login, which u then render out in the users thing
+
   useEffect(() => {
     if (!loading) {
       !user?.displayName ? navigate("/Login") : navigate("/");
     }
-  }, []);
+  }, [user]);
 
   console.log(darkMode);
 

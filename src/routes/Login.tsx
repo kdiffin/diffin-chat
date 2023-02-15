@@ -9,8 +9,6 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 function Login() {
   const navigate = useNavigate();
-  const [user, loading] = useAuthState(firebaseAuth as any);
-  console.log(user);
 
   //easy firebase login
 
