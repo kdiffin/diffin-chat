@@ -20,9 +20,7 @@ function App() {
     if (!loading) {
       !user?.displayName ? navigate("/Login") : navigate("/");
     }
-  }, [user]);
-
-  console.log(darkMode);
+  }, [user, loading]);
 
   return (
     <div
