@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     if (!loading) {
-      !user?.displayName ? navigate("/Login") : navigate("/");
+      !user ? navigate("/login") : navigate("/");
     }
   }, [user, loading]);
 

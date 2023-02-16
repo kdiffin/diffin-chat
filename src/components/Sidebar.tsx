@@ -1,4 +1,4 @@
-import { DarkMode, LightMode, Search } from "@mui/icons-material";
+import { DarkMode, LightMode, Logout, Search } from "@mui/icons-material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
@@ -12,6 +12,8 @@ import DeblurIcon from "@mui/icons-material/Deblur";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageIcon from "@mui/icons-material/Message";
 import SidebarOption from "./SidebarOption";
+import { Link } from "react-router-dom";
+import { firebaseAuth } from "../firebase";
 
 function Sidebar(props: {
   expandSidebar: boolean;
@@ -19,17 +21,21 @@ function Sidebar(props: {
   setDarkMode: any;
   darkMode: boolean | VoidFunction;
 }) {
+  function signOut() {
+    firebaseAuth.signOut().catch((error) => alert(error.message));
+  }
+
   return (
     <div
-      className={`flex  dark:bg-zinc-900/40 dark:border-none border-r-zinc-300 border-r-2    py-10
+      className={`flex  dark:bg-zinc-900/40 dark:border-none  border-r-zinc-300 border-r-2    py-10
        ${props.expandSidebar ? "pl-14" : "items-center"} flex-col`}
     >
-      <div className={`${props.expandSidebar ? " scale-110" : ""}`}>
+      <Link to="/" className={`${props.expandSidebar ? " scale-110" : ""}`}>
         <IconButton>
           {" "}
           <DeblurIcon />
         </IconButton>
-      </div>
+      </Link>
 
       <div className={`mt-12 ${props.expandSidebar ? " mt-16" : ""}`}>
         <SidebarOption
@@ -54,31 +60,32 @@ function Sidebar(props: {
           Icon={<MessageIcon />}
         />
         <SidebarOption
-          text="Likes "
-          expandSidebar={props.expandSidebar}
-          Icon={<FavoriteBorderIcon />}
-        />
-        <SidebarOption
           text="Create "
           expandSidebar={props.expandSidebar}
           Icon={<AddCircleOutlineIcon />}
         />
+
+        <SidebarOption
+          clickAction={signOut}
+          text="Logout "
+          expandSidebar={props.expandSidebar}
+          Icon={<Logout />}
+        />
+
         {props.darkMode ? (
-          <div onClick={props.setDarkMode}>
-            <SidebarOption
-              text="Light Mode "
-              expandSidebar={props.expandSidebar}
-              Icon={<LightMode />}
-            />
-          </div>
+          <SidebarOption
+            clickAction={props.setDarkMode}
+            text="Light Mode "
+            expandSidebar={props.expandSidebar}
+            Icon={<LightMode />}
+          />
         ) : (
-          <div onClick={props.setDarkMode}>
-            <SidebarOption
-              text="Dark Mode "
-              expandSidebar={props.expandSidebar}
-              Icon={<DarkMode />}
-            />
-          </div>
+          <SidebarOption
+            clickAction={props.setDarkMode}
+            text="Dark Mode "
+            expandSidebar={props.expandSidebar}
+            Icon={<DarkMode />}
+          />
         )}
       </div>
 

@@ -23,7 +23,7 @@ const router = createBrowserRouter(
           <Route index element={<Chat />} />
         </Route>
       </Route>
-      <Route path="Login" element={<Login />}></Route>
+      <Route path="/login" element={<Login />}></Route>
     </>
   )
 );

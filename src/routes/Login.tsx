@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 function Login() {
+  const [user, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
 
   //easy firebase login
@@ -17,8 +18,13 @@ function Login() {
     firebaseAuth
       .signInWithPopup(firebaseProvider)
       .catch((error) => alert(error.message));
-    navigate("/");
   }
+
+  useEffect(() => {
+    if (!loading) {
+      !user ? navigate("/login") : navigate("/");
+    }
+  }, [user, loading]);
 
   return (
     <div className="h-screen relative  gap-4 flex-col items-center flex  justify-center text-white bg-zinc-800 ">

@@ -3,13 +3,14 @@ import { Avatar } from "@mui/material";
 import React from "react";
 
 function ChatHeader() {
+  function signOut() {}
   return (
     <div
-      className=" flex  dark:bg-[#212124] z-10    h-12 border-b-zinc-300  
+      className=" flex  dark:bg-[#212124] z-10    h-12 border-b-zinc-300  transition transition-700
       bg-[#ececee]    top-0 sticky  p-4 py-7   border-b-2 dark:border-zinc-700   items-center justify-between "
     >
       <div className="flex items-center">
-        <Avatar sx={{ width: 34, height: 34 }} />{" "}
+        <Avatar sx={{ width: 34, height: 34 }} onClick={signOut} />{" "}
         <span className="ml-3">SomeUser</span>{" "}
       </div>
       <div>

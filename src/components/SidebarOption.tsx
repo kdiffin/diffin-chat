@@ -6,11 +6,12 @@ function SidebarOption(props: {
   Icon: React.ReactElement;
   expandSidebar: boolean;
   text: string;
-  hidden?: boolean;
+  clickAction?: VoidFunction;
 }) {
   return (
     <div
-      className={` mt-6 flex  ${
+      onClick={props.clickAction}
+      className={` mt-6 flex group relative transition-opacity  cool ${
         props.expandSidebar ? " scale-110" : ""
       } items-center`}
     >
@@ -19,7 +20,9 @@ function SidebarOption(props: {
       {props.expandSidebar ? (
         <p className="active:scale-90 text-sm">{props.text}</p>
       ) : (
-        <></>
+        <div className="hidden group-hover:flex  min-w-max   px-3 p-2 rounded-md absolute items-center ml-14 dark:bg-zinc-900 bg-zinc-200 z-10  ">
+          {props.text}
+        </div>
       )}
     </div>
   );
