@@ -13,7 +13,6 @@ function App() {
   const [user, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
 
-  //todos: add logout button on sidebar
   //make it so that it pushes a user to ur db when u click login, which u then render out in the users thing
 
   useEffect(() => {

@@ -3,13 +3,17 @@ import IconButton from "@mui/material/IconButton";
 import DeblurIcon from "@mui/icons-material/Deblur";
 import { LoginOutlined } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import { firebaseAuth, firebaseProvider } from "../firebase";
+import { firebaseAuth, firebaseDb, firebaseProvider } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 function Login() {
-  const [user, loading] = useAuthState(firebaseAuth as any);
+  const [userAccount, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
+  const [users, collectionLoading, error] = useCollection(
+    firebaseDb.collection("users") as any
+  );
 
   //easy firebase login
 
@@ -17,22 +21,27 @@ function Login() {
     e.preventDefault();
     firebaseAuth
       .signInWithPopup(firebaseProvider)
+      .then(({ user }) =>
+        firebaseDb.collection("users").add({
+          name: user?.displayName,
+          profilepic: user?.photoURL,
+        })
+      )
+
       .catch((error) => alert(error.message));
   }
 
   useEffect(() => {
     if (!loading) {
-      !user ? navigate("/login") : navigate("/");
+      !userAccount ? navigate("/login") : navigate("/");
     }
-  }, [user, loading]);
+  }, [userAccount, loading]);
 
   return (
     <div className="h-screen relative  gap-4 flex-col items-center flex  justify-center text-white bg-zinc-800 ">
-      {" "}
       <div className="absolute top-0 left-0 border-r-zinc-700 border-r-2 w-1/4 custom__bg  h-screen"></div>
       <DeblurIcon className="sm:!text-[230px] !text-[180px]" />
       <p className="text-zinc-600 italic mb-2 pointer-events-none select-none">
-        {" "}
         (i'll be seeing ur email address)
       </p>
       <Button
