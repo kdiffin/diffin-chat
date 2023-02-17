@@ -34,9 +34,7 @@ function Chat() {
     <Skeleton key={index}>
       <Avatar className="!w-10 !h-10 mr-4" />
       <div className="mt-4  flex ">
-        <div className="flex-col flex">
-          <div className="bg-zinc-700/40 mt-2 max-w-1/2 h-auto   rounded-md p-4"></div>
-        </div>
+        <div className="flex-col flex"></div>
       </div>{" "}
     </Skeleton>
   ));
@@ -57,13 +55,13 @@ function Chat() {
 
         <div className="flex-col flex">
           {message.data().name === messages?.docs[index - 1]?.data().name ? (
-            <div className="bg-zinc-700/40 w-  h-auto ml-[55px]  rounded-md p-4">
+            <div className="dark:bg-zinc-700/40 bg-zinc-200 w-  h-auto ml-[55px]  rounded-md p-4">
               <p>{message.data().message}</p>
             </div>
           ) : (
             <>
               <p>{message.data().name} </p>
-              <div className="bg-zinc-700/40 mt-3 max-w-[1200px] break-all mr-1  rounded-md p-4">
+              <div className="dark:bg-zinc-700/40 bg-zinc-200 mt-3 max-w-[1200px] break-all mr-1  rounded-md p-4">
                 <p>{message.data().message}</p>
               </div>
             </>

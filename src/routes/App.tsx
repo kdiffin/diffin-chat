@@ -14,6 +14,7 @@ function App() {
   const navigate = useNavigate();
 
   //todo: figure out how to the tabs stuff with routing as a value
+  //todo: add working skeleton to chat loading
 
   useEffect(() => {
     if (!loading) {
