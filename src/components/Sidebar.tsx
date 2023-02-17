@@ -27,7 +27,7 @@ function Sidebar(props: {
 
   return (
     <div
-      className={`flex  dark:bg-zinc-900/40 dark:border-none  border-r-zinc-300 border-r-2    py-10
+      className={`flex  dark:zincbg dark:border-none  border-r-zinc-300 border-r-2    py-10
        ${props.expandSidebar ? "pl-14" : "items-center"} flex-col`}
     >
       <Link to="/" className={`${props.expandSidebar ? " scale-110" : ""}`}>
@@ -54,11 +54,13 @@ function Sidebar(props: {
           expandSidebar={props.expandSidebar}
           Icon={<SlowMotionVideoIcon />}
         />
-        <SidebarOption
-          text="Messages "
-          expandSidebar={props.expandSidebar}
-          Icon={<MessageIcon />}
-        />
+        <Link to="/">
+          <SidebarOption
+            text="Global Chat "
+            expandSidebar={props.expandSidebar}
+            Icon={<MessageIcon />}
+          />
+        </Link>
         <SidebarOption
           text="Create "
           expandSidebar={props.expandSidebar}

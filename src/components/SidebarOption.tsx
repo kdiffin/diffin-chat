@@ -20,7 +20,10 @@ function SidebarOption(props: {
       {props.expandSidebar ? (
         <p className="active:scale-90 text-sm">{props.text}</p>
       ) : (
-        <div className="hidden group-hover:flex  min-w-max   px-3 p-2 rounded-md absolute items-center ml-14 dark:bg-zinc-900 bg-zinc-200 z-10  ">
+        <div
+          className="hidden group-hover:flex  min-w-max   px-3 p-2 rounded-md 
+        absolute items-center ml-14 dark:bg-zinc-900 bg-zinc-200 z-10  "
+        >
           {props.text}
         </div>
       )}

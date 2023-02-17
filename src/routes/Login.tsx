@@ -11,9 +11,6 @@ import { useCollection } from "react-firebase-hooks/firestore";
 function Login() {
   const [userAccount, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
-  const [users, collectionLoading, error] = useCollection(
-    firebaseDb.collection("users") as any
-  );
 
   //easy firebase login
 

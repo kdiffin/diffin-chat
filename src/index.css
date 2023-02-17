@@ -18,11 +18,11 @@
 }
 
 @layer base {
-  html:has(.dark) body {
+  html:has(.dark) {
     background-color: rgb(39 39 42);
   }
 
-  body {
+  html {
     background-color: rgb(244 244 245);
   }
 
@@ -53,6 +53,10 @@
   .app {
     display: grid;
     grid-template-rows: 14fr 1fr;
+  }
+
+  .zincbg {
+    background: #212124;
   }
 
   .custom__bg {

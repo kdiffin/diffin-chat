@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
+import { Link } from "react-router-dom";
 import { firebaseDb } from "../firebase";
 
 function Users() {
@@ -35,13 +36,13 @@ function Users() {
     />
   ));
 
-  //i DONT know what this function does. i'll look into it later. Im tired.
-
+  //copy pasted stuff from stacvkoverflow to make a unique array
+  //yes i couldnt actually implement unique pushing to the database
   const uniqueList = users?.docs.filter(
-    (schema, index, self) =>
+    (listItem, index, self) =>
       index ===
       self.findIndex(
-        (obj) => obj.data().profilepic === schema.data().profilepic
+        (obj) => obj.data().profilepic === listItem.data().profilepic
       )
   );
 
@@ -53,9 +54,21 @@ function Users() {
         paddingRight: "2px",
         minWidth: "68px",
       }}
-      className="group"
+      className="group "
       label={
-        <Avatar sx={{ width: 45, height: 45 }} src={user?.data().profilepic} />
+        <div className="relative">
+          <div
+            className="opacity-0 transition-opacity duration-300 break-all ease-linear group-hover:opacity-100 flex 
+          w-[45px] text-white overflow-hidden z-50 text-[9px] justify-center items-center  
+            absolute flex-wrap h-[45px] bg-zinc-900/80 rounded-[30px]    "
+          >
+            {user?.data().name}
+          </div>
+          <Avatar
+            sx={{ width: 45, height: 45 }}
+            src={user?.data().profilepic}
+          />
+        </div>
       }
     />
   ));
@@ -65,7 +78,7 @@ function Users() {
   };
 
   return (
-    <div className="col-span-full w-screen  border-t-zinc-300 border-t-2 dark:border-none dark:bg-zinc-900/40 ">
+    <div className="col-span-full w-screen  border-t-zinc-300 border-t-2 dark:border-none dark:zincbg ">
       <Tabs
         variant="scrollable"
         scrollButtons
