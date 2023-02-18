@@ -20,7 +20,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<App />} errorElement={<Errorpage />}>
         <Route errorElement={<Errorpage chatError />}>
-          <Route path="users/:userName/:userId" element={<Errorpage />} />
+          <Route path="users/:userName/:userId" element={<UserChat />} />
           <Route index element={<Chat />} />
         </Route>
       </Route>
