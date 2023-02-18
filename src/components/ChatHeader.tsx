@@ -3,12 +3,11 @@ import { Avatar } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useLocation } from "react-router-dom";
 
-function ChatHeader() {
+function ChatHeader(props: { userAvatar?: string; userName?: string }) {
   const location = useLocation();
-  console.log(location);
   return (
     <div
-      className=" flex  dark:zincbg z-10    h-12 border-b-zinc-300  transition transition-700
+      className=" flex  dark:zincbg z-10   h-12 border-b-zinc-300  transition transition-700
       bg-[#ececee]    top-0 sticky  p-4 py-7   border-b-2 dark:border-zinc-700   
       items-center justify-between "
     >
@@ -20,8 +19,8 @@ function ChatHeader() {
           </>
         ) : (
           <>
-            <Avatar sx={{ width: 34, height: 34 }} />
-            <span className="ml-3">SomeUser</span>
+            <Avatar sx={{ width: 34, height: 34 }} src={props.userAvatar} />
+            <span className="ml-3">{props.userName}</span>
           </>
         )}
       </div>

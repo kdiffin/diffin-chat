@@ -11,10 +11,12 @@ function ChatFooter(props: {
   }) {
     if (props.input.length > 999) {
       alert("no sending insanely long messages!");
+      props.setInput("");
     } else {
       props.setInput(e.target.value);
     }
   }
+
   return (
     <div
       className=" dark:bg-zinc-800 transition duration-500  p-1  pb-3  z-10

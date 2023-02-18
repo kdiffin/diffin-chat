@@ -13,12 +13,12 @@ function App() {
   const [user, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
 
-  //todo: figure out how to the tabs stuff with routing as a value
-  //todo: add working skeleton to chat loading
+  //todo: find out how to parse the location string to only get last part
+  //then push to db doc by id
 
   useEffect(() => {
     if (!loading) {
-      !user ? navigate("/login") : navigate("/");
+      !user && navigate("/login");
     }
   }, [user, loading]);
 

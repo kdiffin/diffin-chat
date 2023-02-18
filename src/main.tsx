@@ -13,16 +13,18 @@ import "./index.css";
 import Errorpage from "./routes/Errorpage";
 import Chat from "./components/Chat";
 import Login from "./routes/Login";
+import UserChat from "./routes/UserChat";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<App />}>
-        <Route errorElement={<Errorpage />}>
-          <Route path="user/:userId" element={<Chat />} />
+      <Route path="/" element={<App />} errorElement={<Errorpage />}>
+        <Route errorElement={<Errorpage chatError />}>
+          <Route path="users/:userName/:userId" element={<Errorpage />} />
           <Route index element={<Chat />} />
         </Route>
       </Route>
+
       <Route path="/login" element={<Login />}></Route>
     </>
   )
