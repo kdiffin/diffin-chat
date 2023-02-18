@@ -29,10 +29,15 @@ function UserChat() {
   }
 
   return (
-    <div className="chat__container  relative  dark:bg-zinc-800   overflow-overlay   col-span-1 ">
+    <div
+      className="chat__container  relative  dark:bg-zinc-800   overflow-overlay   col-span-1 "
+      onClick={() => new Error()}
+    >
       <ChatHeader />
       {/* weird 84% is so the input always stays at the bottom */}
-      <div className="px-6 overflow min-h-[84%] p-1 dark:bg-zinc-800  "></div>
+      <div className="px-6 overflow min-h-[84%] p-1 italic text-zinc-500 dark:bg-zinc-800  ">
+        Private messaging is still in WIP.
+      </div>
       <ChatFooter input={input} setInput={setInput} sendPost={sendPost} />
     </div>
   );
