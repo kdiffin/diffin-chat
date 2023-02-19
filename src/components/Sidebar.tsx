@@ -1,19 +1,23 @@
 import { DarkMode, LightMode, Logout, Search } from "@mui/icons-material";
-import InstagramIcon from "@mui/icons-material/Instagram";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import React, { Dispatch, SetStateAction, useState } from "react";
-import logo from "/sitelogo.png";
+import React, { Dispatch, SetStateAction, useReducer, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import DeblurIcon from "@mui/icons-material/Deblur";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import MessageIcon from "@mui/icons-material/Message";
+import { useDispatch, useSelector } from "react-redux";
+
 import SidebarOption from "./SidebarOption";
 import { Link } from "react-router-dom";
 import { firebaseAuth } from "../firebase";
+import {
+  closeSearchbar,
+  openSearchbar,
+  selectSearchbar,
+} from "../redux/searchbarSlice";
 
 function Sidebar(props: {
   expandSidebar: boolean;
@@ -21,6 +25,15 @@ function Sidebar(props: {
   setDarkMode: any;
   darkMode: boolean | VoidFunction;
 }) {
+  const showSearchbar = useSelector(selectSearchbar);
+  const dispatch = useDispatch();
+
+  function showSearch() {
+    showSearchbar ? dispatch(closeSearchbar()) : dispatch(openSearchbar());
+  }
+
+  console.log(showSearchbar);
+
   function signOut() {
     firebaseAuth.signOut().catch((error) => alert(error.message));
   }
@@ -37,9 +50,14 @@ function Sidebar(props: {
         </IconButton>
       </Link>
 
-      <div className={`mt-12 ${props.expandSidebar ? " mt-16" : ""}`}>
+      <div
+        className={`mt-12 flex flex-col justify-center last:mb-4  ${
+          props.expandSidebar ? " mt-16" : " items-center "
+        }`}
+      >
         <SidebarOption
           text="Search "
+          clickAction={showSearch}
           expandSidebar={props.expandSidebar}
           Icon={<SearchIcon />}
         />
@@ -91,7 +109,7 @@ function Sidebar(props: {
         )}
       </div>
 
-      <div className={` mt-auto ${props.expandSidebar ? " scale-110" : ""}`}>
+      <div className={` mt-auto  ${props.expandSidebar ? " scale-110" : ""}`}>
         {" "}
         <IconButton
           onClick={() =>

@@ -1,10 +1,19 @@
-import { CameraAlt, Phone } from "@mui/icons-material";
+import { CameraAlt, Phone, Search } from "@mui/icons-material";
 import { Avatar } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectSearchbar } from "../redux/searchbarSlice";
 
-function ChatHeader(props: { userAvatar?: string; userName?: string }) {
+function ChatHeader(props: {
+  userAvatar?: string;
+  userName?: string;
+  search?: boolean;
+}) {
   const location = useLocation();
+
+  const showSearchbar = useSelector(selectSearchbar);
+
   return (
     <div
       className=" flex  dark:zincbg z-10   h-12 border-b-zinc-300  transition transition-700
@@ -24,8 +33,24 @@ function ChatHeader(props: { userAvatar?: string; userName?: string }) {
           </>
         )}
       </div>
+      <div
+        className={`${showSearchbar ? " openSearchbar " : " closeSearchbar  "} 
+        chatInput__background items-center px-5 p-1
+          dark:bg-zinc-700 bg-zinc-300 justify-center rounded-md flex `}
+      >
+        <Search fontSize="small" className="text-zinc-400"></Search>
+        <input
+          type="text"
+          className="w-full   outline-none h-inherit  focus:bg-zinc-600 bg-inherit rounded-lg "
+          autoComplete="off"
+          spellCheck="false"
+          placeholder="find user"
+        />
+      </div>
+
       <div>
         <Phone />
+
         <CameraAlt className="ml-4" />
       </div>
     </div>

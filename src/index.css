@@ -13,13 +13,36 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
 .MuiIconButton-root {
   color: inherit !important;
 }
 
+@keyframes opacity-and-width-close {
+  0% {
+    width: auto;
+  }
+
+  100% {
+    width: 0;
+    opacity: 0;
+    display: hidden;
+  }
+}
+
+@keyframes opacity-and-width-open {
+  25% {
+    opacity: 100;
+  }
+
+  100% {
+    width: 42%;
+  }
+}
+
 @layer base {
   html:has(.dark) {
-    background-color: rgb(39 39 42);
+    background-color: #27272a;
   }
 
   html {
@@ -71,7 +94,23 @@
     grid-template-columns: 1fr 5fr;
   }
 
+  .openSearchbar {
+    opacity: 1;
+    width: 42%;
+    transition: opacity 1s, width 1s ease 1s;
+  }
+
+  .closeSearchbar {
+    width: 0;
+
+    opacity: 0;
+    transition: width 1s, opacity 1s ease 1s;
+  }
   .overflow-overlay {
     overflow: overlay;
+  }
+
+  .chatInput__background:has(input:focus) {
+    background-color: rgb(82 82 91);
   }
 }

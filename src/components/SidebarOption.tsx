@@ -18,7 +18,7 @@ function SidebarOption(props: {
       {" "}
       <IconButton>{props.Icon}</IconButton>
       {props.expandSidebar ? (
-        <p className="active:scale-90 text-sm">{props.text}</p>
+        <p className="active:scale-90 text-sm cursor-pointer">{props.text}</p>
       ) : (
         <div
           className="hidden group-hover:flex  min-w-max   px-3 p-2 rounded-md 

@@ -28,7 +28,6 @@ function useSendGlobalMessage(): [
       message: input,
       name: user?.displayName,
       profilePic: user?.photoURL,
-
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setInput("");

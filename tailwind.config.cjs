@@ -4,9 +4,8 @@ module.exports = {
   darkMode: "class",
   theme: {
     extend: {
-      screens: {
-        phoneBug: "360px",
-        // => @media (min-width: 992px) { ... }
+      transitionProperty: {
+        width: "width",
       },
     },
   },

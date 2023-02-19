@@ -9,11 +9,14 @@ import {
 } from "react-router-dom";
 
 import App from "./routes/App";
+import { store } from "./app/store";
+
 import "./index.css";
 import Errorpage from "./routes/Errorpage";
 import Chat from "./components/Chat";
 import Login from "./routes/Login";
 import UserChat from "./routes/UserChat";
+import { Provider } from "react-redux";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,14 +27,19 @@ const router = createBrowserRouter(
           <Route index element={<Chat />} />
         </Route>
       </Route>
-
-      <Route path="/login" element={<Login />}></Route>
+      <Route
+        path="/login"
+        element={<Login />}
+        errorElement={<Errorpage />}
+      ></Route>
     </>
   )
 );
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
