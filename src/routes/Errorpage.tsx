@@ -6,7 +6,7 @@ import { useNavigate, useRouteError } from "react-router-dom";
 function Errorpage(props: { chatError?: boolean }) {
   const error: any = useRouteError();
   const navigate = useNavigate();
-
+  console.error(error);
   return (
     <div
       className={` ${props.chatError ? "h-full" : "h-screen"}

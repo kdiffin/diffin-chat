@@ -20,8 +20,6 @@ function UserChat() {
     setUserId(splittedLocation[splittedLocation.length - 1]);
   }, [location]);
 
-  console.log(userId);
-
   function sendPost(e: { preventDefault: () => void }) {
     e.preventDefault();
 
@@ -29,10 +27,7 @@ function UserChat() {
   }
 
   return (
-    <div
-      className="chat__container  relative  dark:bg-zinc-800   overflow-overlay   col-span-1 "
-      onClick={() => new Error()}
-    >
+    <div className="chat__container  relative  dark:bg-zinc-800   overflow-overlay   col-span-1 ">
       <ChatHeader />
       {/* weird 84% is so the input always stays at the bottom */}
       <div className="px-6 overflow min-h-[84%] p-1 italic text-zinc-500 dark:bg-zinc-800  ">

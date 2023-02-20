@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLoaderData, useNavigate } from "react-router-dom";
 import Chat from "../components/Chat";
 import Sidebar from "../components/Sidebar";
 import Users from "../components/Users";
@@ -7,14 +7,26 @@ import UseDarkMode from "../custom-hooks/UseDarkMode";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { firebaseAuth } from "../firebase";
 
+export async function loader({ request }: any) {
+  const url = new URL(request.url);
+  const search: string | null = url.searchParams.get("search");
+  return search;
+}
+
 function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
   const [darkMode, setDarkMode] = UseDarkMode();
   const [user, loading] = useAuthState(firebaseAuth as any);
   const navigate = useNavigate();
+  const search: any = useLoaderData();
 
   //todo: find out how to parse the location string to only get last part
   //then push to db doc by id
+
+  useEffect(() => {
+    const searchObj = document.getElementById("search") as HTMLInputElement;
+    searchObj.value = search;
+  }, [search]);
 
   useEffect(() => {
     if (!loading) {
@@ -35,7 +47,7 @@ function App() {
         setExpandSidebar={setExpandSidebar}
       />
       <Outlet />
-      <Users />
+      <Users search={search} />
     </div>
   );
 }

@@ -7,13 +7,14 @@ import {
   Tabs,
   tabsClasses,
 } from "@mui/material";
+import { matchSorter } from "match-sorter";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import useRouteMatch from "../custom-hooks/useRouteMatch";
 import { firebaseDb } from "../firebase";
 
-function Users() {
+function Users(props: { search: any }) {
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
 
@@ -37,11 +38,17 @@ function Users() {
     allPaths.push(`users/${item?.data().name}/${item?.id}`)
   );
 
+  const finalList =
+    //go console log uniquelist and read matchsorter docs ull get this code
+    matchSorter(uniqueList!, props.search, {
+      keys: ["_document.data.value.mapValue.fields.name.stringValue"],
+    });
+
   const routeMatch = useRouteMatch(allPaths);
   const currentTab = routeMatch?.pattern?.path;
   const currentTabIndex = allPaths.indexOf(currentTab as string);
 
-  const skeletonArray = new Array(30).fill(1);
+  const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
     <Tab
       key={index}
@@ -65,7 +72,7 @@ function Users() {
     />
   ));
 
-  const userList = uniqueList?.map((user) => (
+  const userList = finalList?.map((user) => (
     <Tab
       key={user?.id}
       sx={{

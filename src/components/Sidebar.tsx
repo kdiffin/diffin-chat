@@ -32,8 +32,6 @@ function Sidebar(props: {
     showSearchbar ? dispatch(closeSearchbar()) : dispatch(openSearchbar());
   }
 
-  console.log(showSearchbar);
-
   function signOut() {
     firebaseAuth.signOut().catch((error) => alert(error.message));
   }

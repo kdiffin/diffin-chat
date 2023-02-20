@@ -17,11 +17,19 @@ import Chat from "./components/Chat";
 import Login from "./routes/Login";
 import UserChat from "./routes/UserChat";
 import { Provider } from "react-redux";
+import { loader as appLoader } from "./routes/App";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      <Route path="/" element={<App />} errorElement={<Errorpage />}>
+      <Route
+        path="/"
+        element={<App />}
+        //this is for th useRouterLoaderData in chatheader
+        id="app"
+        loader={appLoader}
+        errorElement={<Errorpage />}
+      >
         <Route errorElement={<Errorpage chatError />}>
           <Route path="users/:userName/:userId" element={<UserChat />} />
           <Route index element={<Chat />} />

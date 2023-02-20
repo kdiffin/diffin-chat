@@ -13,7 +13,7 @@ function Chat() {
   const [messages, messagesLoading, loading, input, setInput, sendPost] =
     useSendGlobalMessage();
 
-  const skeletonArray = new Array(30).fill(1);
+  const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
     <div className="flex mt-5" key={index}>
       <Skeleton
