@@ -1,3 +1,4 @@
+import { Language, Translate } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -22,22 +23,12 @@ function Users(props: { search: any }) {
     firebaseDb.collection("users") as any
   );
 
-  //copy pasted stuff from stacvkoverflow to make a unique array
-  //yes i couldnt actually implement unique pushing to the database
-  const uniqueList = users?.docs.filter(
-    (listItem, index, self) =>
-      index ===
-      self.findIndex(
-        (obj) => obj.data().profilepic === listItem.data().profilepic
-      )
-  );
-
   let allPaths: string[] = [];
 
   const finalList =
     //go console log uniquelist and read matchsorter docs ull get this code
-    !loading && uniqueList
-      ? matchSorter(uniqueList, props.search || "", {
+    !loading
+      ? matchSorter(users?.docs!, props.search || "", {
           keys: ["_document.data.value.mapValue.fields.name.stringValue"],
         })
       : [];
@@ -53,7 +44,6 @@ function Users(props: { search: any }) {
   const routeMatch = useRouteMatch(allPaths);
   const currentTab = routeMatch?.pattern?.path;
   const currentTabIndex = allPaths.indexOf(currentTab as string);
-  console.log(currentTab);
 
   const skeletonArray = new Array(30).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
@@ -120,7 +110,8 @@ function Users(props: { search: any }) {
         variant="scrollable"
         scrollButtons
         className="!w-full"
-        value={loading ? 0 : currentTabIndex}
+        //+1 on currenttabindex cuz theres a globe at the 0 index
+        value={loading || currentTabIndex === -1 ? 0 : currentTabIndex + 1}
         onChange={handleChange}
         sx={{
           [`& .${tabsClasses.scrollButtons}`]: {
@@ -128,13 +119,24 @@ function Users(props: { search: any }) {
           },
         }}
       >
+        <Tab
+          label={
+            <Avatar
+              onClick={() => navigate("/")}
+              sx={{ width: 45, height: 45, backgroundColor: "transparent" }}
+              className="border-[1px] border-zinc-700"
+            >
+              <Language />
+            </Avatar>
+          }
+        ></Tab>
         {loading ? loadingPlaceholder : userList}
         {userList?.length === 0 && !loading ? (
           <p className="italic  text-zinc-600 items-center flex h-[45px] animate-pulse">
             No users found...
           </p>
         ) : (
-          <></>
+          []
         )}
       </Tabs>
     </div>

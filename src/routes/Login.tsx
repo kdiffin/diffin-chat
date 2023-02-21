@@ -19,7 +19,7 @@ function Login() {
     firebaseAuth
       .signInWithPopup(firebaseProvider)
       .then(({ user }) =>
-        firebaseDb.collection("users").add({
+        firebaseDb.collection("users").doc(user?.uid).set({
           name: user?.displayName,
           profilepic: user?.photoURL,
         })
