@@ -22,6 +22,8 @@ function Users(props: { search: any }) {
     firebaseDb.collection("users") as any
   );
 
+  //copy pasted stuff from stacvkoverflow to make a unique array
+  //yes i couldnt actually implement unique pushing to the database
   const uniqueList = users?.docs.filter(
     (listItem, index, self) =>
       index ===
@@ -32,23 +34,28 @@ function Users(props: { search: any }) {
 
   let allPaths: string[] = [];
 
-  //copy pasted stuff from stacvkoverflow to make a unique array
-  //yes i couldnt actually implement unique pushing to the database
-  uniqueList?.map((item) =>
+  const finalList =
+    //go console log uniquelist and read matchsorter docs ull get this code
+    !loading && uniqueList
+      ? matchSorter(uniqueList, props.search || "", {
+          keys: ["_document.data.value.mapValue.fields.name.stringValue"],
+        })
+      : [];
+
+  finalList?.map((item) =>
     allPaths.push(`users/${item?.data().name}/${item?.id}`)
   );
 
-  const finalList =
-    //go console log uniquelist and read matchsorter docs ull get this code
-    matchSorter(uniqueList!, props.search, {
-      keys: ["_document.data.value.mapValue.fields.name.stringValue"],
-    });
+  //on default the array has %20 turns into a " "/space so i reversed that behviour
+  //so that it truly matches the url
+  allPaths = allPaths.map((path) => path.replace(" ", "%20"));
 
   const routeMatch = useRouteMatch(allPaths);
   const currentTab = routeMatch?.pattern?.path;
   const currentTabIndex = allPaths.indexOf(currentTab as string);
+  console.log(currentTab);
 
-  const skeletonArray = new Array(20).fill(1);
+  const skeletonArray = new Array(30).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
     <Tab
       key={index}
@@ -112,7 +119,7 @@ function Users(props: { search: any }) {
       <Tabs
         variant="scrollable"
         scrollButtons
-        value={loading || currentTabIndex === -1 ? value : currentTabIndex}
+        value={loading ? 0 : currentTabIndex}
         onChange={handleChange}
         sx={{
           [`& .${tabsClasses.scrollButtons}`]: {
