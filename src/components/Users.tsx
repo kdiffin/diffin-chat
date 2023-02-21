@@ -115,10 +115,11 @@ function Users(props: { search: any }) {
   };
 
   return (
-    <div className="col-span-full w-screen  border-t-zinc-300 border-t-2 dark:border-none dark:zincbg ">
+    <div className="col-span-full w-screen h-15 items-center flex   border-t-zinc-300 border-t-2 dark:border-none dark:zincbg ">
       <Tabs
         variant="scrollable"
         scrollButtons
+        className="!w-full"
         value={loading ? 0 : currentTabIndex}
         onChange={handleChange}
         sx={{
@@ -128,6 +129,13 @@ function Users(props: { search: any }) {
         }}
       >
         {loading ? loadingPlaceholder : userList}
+        {userList?.length === 0 && !loading ? (
+          <p className="italic  text-zinc-600 items-center flex h-[45px] animate-pulse">
+            No users found...
+          </p>
+        ) : (
+          <></>
+        )}
       </Tabs>
     </div>
   );

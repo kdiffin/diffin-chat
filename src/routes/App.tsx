@@ -20,8 +20,8 @@ function App() {
   const navigate = useNavigate();
   const search: any = useLoaderData();
 
-  //todo: find out how to parse the location string to only get last part
   //then push to db doc by id
+  //todo: fix that trash users database lmfao
 
   useEffect(() => {
     const searchObj = document.getElementById("search") as HTMLInputElement;
