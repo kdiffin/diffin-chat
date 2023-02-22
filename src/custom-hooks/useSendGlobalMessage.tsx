@@ -36,7 +36,7 @@ function useSendGlobalMessage(props: {
     //okay i know this is HELLA goofy but i cant be bothered to learn how to trim useless whitespace right now
     e.preventDefault();
 
-    if (input > " " || "  " || "   " || "    ") {
+    if (input === " " || "  " || "   " || "    ") {
       alert("dont do that bro");
       return;
     }
