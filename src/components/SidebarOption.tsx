@@ -11,7 +11,7 @@ function SidebarOption(props: {
   return (
     <div
       onClick={props.clickAction}
-      className={` mt-6 flex group relative transition-opacity  cool ${
+      className={` mt-6 flex group relative    ${
         props.expandSidebar ? " scale-110" : ""
       } items-center`}
     >

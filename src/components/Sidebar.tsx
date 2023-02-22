@@ -24,6 +24,8 @@ function Sidebar(props: {
   setExpandSidebar: Dispatch<SetStateAction<boolean>>;
   setDarkMode: any;
   darkMode: boolean | VoidFunction;
+  setCloseUsers: Dispatch<SetStateAction<boolean>>;
+  closeUsers: boolean;
 }) {
   const showSearchbar = useSelector(selectSearchbar);
   const dispatch = useDispatch();
@@ -38,8 +40,8 @@ function Sidebar(props: {
 
   return (
     <div
-      className={`flex  dark:zincbg dark:border-none  border-r-zinc-300 border-r-2    py-10
-       ${props.expandSidebar ? "pl-14" : "items-center"} flex-col`}
+      className={`flex  dark:zincbg dark:border-none   border-r-zinc-300 border-r-2 py-10 transition-all 
+       ${props.expandSidebar ? "pl-14 " : "items-center "} flex-col`}
     >
       <Link to="/" className={`${props.expandSidebar ? " scale-110" : ""}`}>
         <IconButton>
@@ -49,7 +51,7 @@ function Sidebar(props: {
       </Link>
 
       <div
-        className={`mt-12 flex flex-col justify-center last:mb-4  ${
+        className={`mt-12 flex flex-col justify-center  last:mb-4  ${
           props.expandSidebar ? " mt-16" : " items-center "
         }`}
       >

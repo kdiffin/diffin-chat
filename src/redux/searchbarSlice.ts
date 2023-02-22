@@ -5,7 +5,7 @@ export const searchbarSlice = createSlice({
   //okay yeah redux was WAYYY too  overkill just to implement this header feature, but at the time of making this feature I was not aware of something like jotai or useContext.
   name: "search",
   initialState: {
-    searchOpen: true,
+    searchOpen:  false,
   },
   reducers: {
     openSearchbar: (state) => {

@@ -1,5 +1,5 @@
 import { Avatar, Skeleton } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
 import { firebaseAuth, firebaseDb, firebase } from "../firebase";
@@ -10,8 +10,12 @@ import useSendGlobalMessage from "../custom-hooks/useSendGlobalMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
 function Chat() {
-  const [messages, messagesLoading, loading, input, setInput, sendPost] =
-    useSendGlobalMessage();
+  const messagesRef = useRef<null | HTMLDivElement>(null);
+  const { messages, messagesLoading, loading, input, setInput, sendPost } =
+    useSendGlobalMessage({
+      refValue: messagesRef,
+      collectionName: "globalMessages",
+    });
 
   const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
@@ -77,7 +81,7 @@ function Chat() {
 
         <div className="flex-col flex">
           {message.data().name === messages?.docs[index - 1]?.data().name ? (
-            <div className="dark:bg-zinc-700/40 bg-zinc-200 w-  h-auto ml-[55px]  rounded-md p-4">
+            <div className="dark:bg-zinc-700/40 bg-zinc-200 h-auto ml-[55px] max-w-[1200px] break-all rounded-md p-4">
               <p>{message.data().message}</p>
             </div>
           ) : (
@@ -94,7 +98,10 @@ function Chat() {
   );
 
   return (
-    <div className="chat__container  relative  dark:bg-zinc-800   overflow-overlay   col-span-1 ">
+    <div
+      ref={messagesRef}
+      className="chat__container   relative  dark:bg-zinc-800   overflow-overlay   col-span-1 "
+    >
       <ChatHeader />
       {/* this is where the messages  go */}
       {/* weird 84% is so the input always stays at the bottom */}

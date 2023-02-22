@@ -23,7 +23,7 @@ function Users(props: { search: any }) {
     firebaseDb.collection("users") as any
   );
 
-  let allPaths: string[] = [];
+  let allPaths: string[] = ["/"];
 
   const finalList =
     //go console log uniquelist and read matchsorter docs ull get this code
@@ -105,13 +105,18 @@ function Users(props: { search: any }) {
   };
 
   return (
-    <div className="col-span-full w-screen h-15 items-center flex   border-t-zinc-300 border-t-2 dark:border-none dark:zincbg ">
+    <div
+      className="col-span-full w-screen h-15 items-center flex  
+      
+    border-t-zinc-300 border-t-2 dark:border-none dark:zincbg
+      "
+    >
       <Tabs
         variant="scrollable"
         scrollButtons
         className="!w-full"
         //+1 on currenttabindex cuz theres a globe at the 0 index
-        value={loading || currentTabIndex === -1 ? 0 : currentTabIndex + 1}
+        value={loading || currentTabIndex === -1 ? value : currentTabIndex}
         onChange={handleChange}
         sx={{
           [`& .${tabsClasses.scrollButtons}`]: {
@@ -119,26 +124,31 @@ function Users(props: { search: any }) {
           },
         }}
       >
-        <Tab
-          label={
-            <Avatar
-              onClick={() => navigate("/")}
-              sx={{ width: 45, height: 45, backgroundColor: "transparent" }}
-              className="border-[1px] border-zinc-700"
-            >
-              <Language />
-            </Avatar>
-          }
-        ></Tab>
-        {loading ? loadingPlaceholder : userList}
-        {userList?.length === 0 && !loading ? (
-          <p className="italic  text-zinc-600 items-center flex h-[45px] animate-pulse">
-            No users found...
-          </p>
-        ) : (
+        {userList?.length === 0 ? (
           []
+        ) : (
+          <Tab
+            label={
+              <Avatar
+                onClick={() => navigate("/")}
+                sx={{ width: 45, height: 45, backgroundColor: "transparent" }}
+                className="border-[1px] dark:border-zinc-700 border-zinc-300 !text-zinc-600 dark:!text-white"
+              >
+                <Language />
+              </Avatar>
+            }
+          ></Tab>
         )}
+
+        {loading ? loadingPlaceholder : userList}
       </Tabs>
+      {userList?.length === 0 && !loading ? (
+        <p className="italic absolute left-10  text-zinc-600 text-lg ml-2  animate-pulse">
+          No users found...
+        </p>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }
