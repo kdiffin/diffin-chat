@@ -33,7 +33,14 @@ function useSendGlobalMessage(props: {
 
   //what adds the message to the db
   function sendPost(e: { preventDefault: () => void }) {
+    //okay i know this is HELLA goofy but i cant be bothered to learn how to trim useless whitespace right now
     e.preventDefault();
+
+    if (input > " " || "  " || "   " || "    ") {
+      alert("dont do that bro");
+      return;
+    }
+
     firebaseDb.collection(props.collectionName).add({
       message: input,
       name: user?.displayName,

@@ -12,11 +12,6 @@ function ChatFooter(props: {
     if (props.input.length > 999) {
       props.setInput("");
       alert("no sending insanely long messages!");
-    }
-    //okay i know this is HELLA goofy but i cant be bothered to learn how to trim useless whitespace right now
-    else if (props.input > " " || "  " || "   " || "    ") {
-      props.setInput("");
-      alert("dont send that bro");
     } else {
       props.setInput(e.target.value);
     }
