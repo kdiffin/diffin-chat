@@ -101,14 +101,14 @@
   .openSearchbar {
     opacity: 1;
     width: 42%;
-    transition: opacity 1s, width 1s ease 1s;
+    transition: opacity 0.5s, width 1s ease 0.5s;
   }
 
   .closeSearchbar {
     width: 0;
 
     opacity: 0;
-    transition: width 1s, opacity 1s ease 1s;
+    transition: width 1s, opacity 0.5s ease 0.8s;
   }
   .overflow-overlay {
     overflow: overlay;

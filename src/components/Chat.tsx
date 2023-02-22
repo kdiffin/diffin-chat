@@ -24,7 +24,7 @@ function Chat() {
         variant="circular"
         width={45}
         height={45}
-        className="mr-5 !bg-zinc-700 "
+        className="mr-5 dark:!bg-zinc-700 !bg-zinc-200 "
       />
       <div className="flex-col flex">
         <Skeleton
@@ -32,8 +32,8 @@ function Chat() {
           sx={{
             fontSize: "1.2rem",
             width: "100px",
-            backgroundColor: "rgba(63 63 70 )",
           }}
+          className="dark:!bg-zinc-700 !bg-zinc-200"
         />
         <Skeleton
           variant="rounded"
@@ -41,8 +41,8 @@ function Chat() {
             width: "200px",
             height: "35px",
             marginTop: "12px",
-            backgroundColor: "rgba(63 63 70 )",
           }}
+          className="dark:!bg-zinc-700 !bg-zinc-200"
         />
         <Skeleton
           variant="rounded"
@@ -50,8 +50,8 @@ function Chat() {
             width: "200px",
             height: "35px",
             marginTop: "12px",
-            backgroundColor: "rgba(63 63 70 )",
           }}
+          className="dark:!bg-zinc-700 !bg-zinc-200"
         />
         <Skeleton
           variant="rounded"
@@ -59,8 +59,8 @@ function Chat() {
             width: "200px",
             height: "35px",
             marginTop: "12px",
-            backgroundColor: "rgba(63 63 70 )",
           }}
+          className="dark:!bg-zinc-700 !bg-zinc-200"
         />
       </div>
     </div>

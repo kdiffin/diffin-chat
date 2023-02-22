@@ -72,12 +72,12 @@ function ChatHeader(props: {
           }}
           name="search"
         />
-        <Info className="text-zinc-500 cursor-help  italic !text-[20px] hover-info " />
+        <Info className="dark:text-zinc-500 text-zinc-400 cursor-help  italic !text-[20px] hover-info " />
         <div
           className="opacity-0   min-w-max info-tooltip  px-3 p-2 text-sm rounded-md transition-all duration-300 
-        absolute items-center top-12 right-0 dark:bg-zinc-900/80 text-zinc-300 italic bg-zinc-200 z-10  "
+        absolute items-center top-12 right-0 dark:bg-zinc-900/80 dark:text-zinc-300 text-zinc-800 mt-2 italic bg-zinc-200 z-10  "
         >
-          to automatically use the searchbar, use ctrl+k
+          to automatically use the searchbar, use ctrl+"
         </div>{" "}
       </Form>
 
