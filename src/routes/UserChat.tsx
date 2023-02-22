@@ -16,6 +16,7 @@ function UserChat() {
 
   useEffect(() => {
     //this makes an array where the last item is the id of the user
+    //ill later use that userid to push into that specific doc
     const splittedLocation: string[] = location.pathname.split("/");
     setUserId(splittedLocation[splittedLocation.length - 1]);
   }, [location]);
