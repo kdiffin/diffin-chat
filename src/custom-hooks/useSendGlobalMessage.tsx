@@ -44,6 +44,12 @@ function useSendGlobalMessage(props: {
     }
 
     //ok to use ! for the types here i think because i already made it so that when its loading/messagesloading it returns
+
+    if (inputValue!.length > 800) {
+      alert("no sending crazy suepr long messages!");
+      return;
+    }
+
     const trimmedInput = inputValue?.trim();
     const inputList = trimmedInput!.split(" ");
 
