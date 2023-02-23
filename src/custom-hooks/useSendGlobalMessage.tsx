@@ -1,30 +1,28 @@
 import { DocumentData, QuerySnapshot } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { RefObject, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firebaseAuth, firebaseDb, firebase } from "../firebase";
 
 function useSendGlobalMessage(props: {
-  refValue: { current: null | HTMLDivElement };
+  containerRefValue: RefObject<HTMLDivElement>;
+  inputRef: RefObject<HTMLInputElement>;
   collectionName: string;
 }): {
   messages: QuerySnapshot<DocumentData> | undefined;
   messagesLoading: boolean;
   loading: boolean;
-  input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
   sendPost: (e: { preventDefault: () => void }) => void;
 } {
   // the chat itself so i can preform a function which scrolls to bottom when typed
-  const chatHTML = props.refValue.current;
+  const chatHTML = props.containerRefValue.current;
 
-  //value of the thing we type in before sending the message
-  const [input, setInput] = useState<string>("");
+  //ref of the thing we type in before sending the message
+  const inputRef = props.inputRef.current;
 
   //user thats logged in rn
   const [user, loading] = useAuthState(firebaseAuth as any);
 
-  //u can name this to anything else other than messages
   const [messages, messagesLoading, error] = useCollection(
     firebaseDb
       .collection(props.collectionName)
@@ -34,25 +32,35 @@ function useSendGlobalMessage(props: {
   //what adds the message to the db
   function sendPost(e: { preventDefault: () => void }) {
     e.preventDefault();
-    //okay i know this is HELLA goofy but i cant be bothered to learn how to trim useless whitespace right now
 
-    if (
-      input === " " ||
-      input === "  " ||
-      input === "   " ||
-      input === "    "
-    ) {
+    if (loading && messagesLoading) {
+      return;
+    }
+
+    const inputValue = inputRef?.value;
+
+    if (inputValue === "") {
+      return;
+    }
+
+    //ok to use ! for the types here i think because i already made it so that when its loading/messagesloading it returns
+    const trimmedInput = inputValue?.trim();
+    const inputList = trimmedInput!.split(" ");
+
+    console.log(inputList);
+    if (inputList[0] === "") {
+      inputRef!.value = "";
       alert("dont do that bro");
       return;
     }
 
     firebaseDb.collection(props.collectionName).add({
-      message: input,
+      message: inputValue,
       name: user?.displayName,
       profilePic: user?.photoURL,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
-    setInput("");
+    inputRef!.value = "";
   }
 
   //the reason i made this a useEffect is cuz itll lag behind when doing it in the sendPost
@@ -62,7 +70,7 @@ function useSendGlobalMessage(props: {
       : "";
   }, [messages]);
 
-  return { messages, messagesLoading, loading, input, setInput, sendPost };
+  return { messages, messagesLoading, loading, sendPost };
 }
 
 export default useSendGlobalMessage;

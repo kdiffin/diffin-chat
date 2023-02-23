@@ -35,6 +35,7 @@ function App() {
   //todo: push to db doc by id
   //todo: profiles
   //todo right click on user to view profile or go to message
+  //todo: add lazy loading
 
   function handleShortcutFunction() {
     const searchObj = document.getElementById("search") as HTMLInputElement;

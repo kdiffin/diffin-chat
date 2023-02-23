@@ -1,22 +1,19 @@
-import React, { Dispatch, MouseEventHandler, SetStateAction } from "react";
+import React, {
+  Dispatch,
+  forwardRef,
+  MouseEventHandler,
+  SetStateAction,
+} from "react";
 import { Create } from "@mui/icons-material";
 
-function ChatFooter(props: {
-  sendPost: MouseEventHandler<HTMLButtonElement> | undefined;
-  input: string;
-  setInput: Dispatch<SetStateAction<string>>;
-}) {
-  function changeMessage(e: {
-    target: { value: React.SetStateAction<string> };
-  }) {
-    if (props.input.length > 999) {
-      props.setInput("");
-      alert("no sending insanely long messages!");
-    } else {
-      props.setInput(e.target.value);
-    }
-  }
+function ChatFooter(
+  //u need to do this weird props and ref thing for forward ref to work
+  props: {
+    sendPost: MouseEventHandler<HTMLButtonElement>;
+  },
 
+  ref: React.LegacyRef<HTMLInputElement> | undefined
+) {
   return (
     <div
       className=" dark:bg-zinc-800 transition duration-500  p-1  pb-3  z-10
@@ -32,9 +29,8 @@ function ChatFooter(props: {
             <input
               spellCheck="false"
               type="text"
+              ref={ref}
               className="border-0 bg-transparent flex-1  ml-2 outline-none font-semibold "
-              value={props.input}
-              onChange={changeMessage}
               placeholder="Submit a post"
             />
             <button type="submit" className=" hidden" onClick={props.sendPost}>
@@ -47,4 +43,7 @@ function ChatFooter(props: {
   );
 }
 
-export default ChatFooter;
+//forward ref gives the ref to the parent component, u need to use this when passing down refs
+const forwardChatFooter = forwardRef(ChatFooter);
+
+export default forwardChatFooter;

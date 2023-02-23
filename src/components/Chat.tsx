@@ -10,12 +10,17 @@ import useSendGlobalMessage from "../custom-hooks/useSendGlobalMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
 function Chat() {
-  const messagesRef = useRef<null | HTMLDivElement>(null);
-  const { messages, messagesLoading, loading, input, setInput, sendPost } =
-    useSendGlobalMessage({
-      refValue: messagesRef,
+  const messagesRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  //choosig to use a ref for the input cuz it state got really laggy really fast
+
+  const { messages, messagesLoading, loading, sendPost } = useSendGlobalMessage(
+    {
+      containerRefValue: messagesRef,
       collectionName: "globalMessages",
-    });
+      inputRef: inputRef,
+    }
+  );
 
   const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
@@ -105,10 +110,10 @@ function Chat() {
       <ChatHeader />
       {/* this is where the messages  go */}
       {/* weird 84% is so the input always stays at the bottom */}
-      <div className="px-6 overflow min-h-[84%] p-1 dark:bg-zinc-800  ">
+      <div className="px-6 overflow min-h-[100%] p-1 dark:bg-zinc-800  ">
         {messagesLoading || loading ? loadingPlaceholder : messageListJsx}
       </div>
-      <ChatFooter input={input} setInput={setInput} sendPost={sendPost} />
+      <ChatFooter ref={inputRef} sendPost={sendPost} />
     </div>
   );
 }
