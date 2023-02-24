@@ -8,6 +8,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { useLocation } from "react-router-dom";
 import useSendGlobalMessage from "../custom-hooks/useSendGlobalMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
+import useHandleShortcut from "../custom-hooks/useHandleShortcut";
 
 function Chat() {
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,19 @@ function Chat() {
       inputRef: inputRef,
     }
   );
+
+  const chatHTML = messagesRef.current;
+
+  const [] = useHandleShortcut({
+    userAction: "Escape",
+    actionFunction: scrollToBottom,
+    useCtrlKey: false,
+    useEffectDependency: messagesLoading,
+  });
+
+  function scrollToBottom() {
+    chatHTML!.scrollTop = chatHTML!.scrollHeight;
+  }
 
   const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
@@ -110,7 +124,7 @@ function Chat() {
       <ChatHeader />
       {/* this is where the messages  go */}
       {/* weird 84% is so the input always stays at the bottom */}
-      <div className="px-6 overflow min-h-[100%] p-1 dark:bg-zinc-800  ">
+      <div className="px-6 overflow min-h-[83%] p-1 dark:bg-zinc-800  ">
         {messagesLoading || loading ? loadingPlaceholder : messageListJsx}
       </div>
       <ChatFooter ref={inputRef} sendPost={sendPost} />

@@ -24,6 +24,7 @@ function App() {
   const [] = useHandleShortcut({
     userAction: "'",
     actionFunction: handleShortcutFunction,
+    useCtrlKey: true,
   });
   const [darkMode, setDarkMode] = UseDarkMode();
   const [user, loading] = useAuthState(firebaseAuth as any);
@@ -47,6 +48,7 @@ function App() {
     }
   }
 
+  //this is basically so that if the dude types in something to the searchbar it sets that string to the searches value
   useEffect(() => {
     const searchObj = document.getElementById("search") as HTMLInputElement;
     searchObj.value = search;

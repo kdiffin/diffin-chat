@@ -1,9 +1,9 @@
-import { DarkMode, LightMode, Logout, Search } from "@mui/icons-material";
+import { DarkMode, LightMode, Logout } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import React, { Dispatch, SetStateAction, useReducer, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import IconButton from "@mui/material/IconButton";
 import DeblurIcon from "@mui/icons-material/Deblur";
@@ -11,7 +11,7 @@ import MessageIcon from "@mui/icons-material/Message";
 import { useDispatch, useSelector } from "react-redux";
 
 import SidebarOption from "./SidebarOption";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { firebaseAuth } from "../firebase";
 import {
   closeSearchbar,
@@ -29,9 +29,15 @@ function Sidebar(props: {
 }) {
   const showSearchbar = useSelector(selectSearchbar);
   const dispatch = useDispatch();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function closeSearchbarFunc() {
+    dispatch(closeSearchbar());
+    setSearchParams("");
+  }
 
   function showSearch() {
-    showSearchbar ? dispatch(closeSearchbar()) : dispatch(openSearchbar());
+    showSearchbar ? closeSearchbarFunc() : dispatch(openSearchbar());
   }
 
   function signOut() {

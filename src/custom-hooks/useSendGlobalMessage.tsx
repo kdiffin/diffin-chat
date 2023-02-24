@@ -3,6 +3,7 @@ import React, { RefObject, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { firebaseAuth, firebaseDb, firebase } from "../firebase";
+import useHandleShortcut from "./useHandleShortcut";
 
 function useSendGlobalMessage(props: {
   containerRefValue: RefObject<HTMLDivElement>;
@@ -29,6 +30,10 @@ function useSendGlobalMessage(props: {
       .orderBy("timestamp", "asc") as any
   );
 
+  function scrollToBottom() {
+    chatHTML!.scrollTop = chatHTML!.scrollHeight;
+  }
+
   //what adds the message to the db
   function sendPost(e: { preventDefault: () => void }) {
     e.preventDefault();
@@ -53,7 +58,6 @@ function useSendGlobalMessage(props: {
     const trimmedInput = inputValue?.trim();
     const inputList = trimmedInput!.split(" ");
 
-    console.log(inputList);
     if (inputList[0] === "") {
       inputRef!.value = "";
       alert("dont do that bro");
@@ -71,9 +75,7 @@ function useSendGlobalMessage(props: {
 
   //the reason i made this a useEffect is cuz itll lag behind when doing it in the sendPost
   useEffect(() => {
-    !loading && !messagesLoading
-      ? (chatHTML!.scrollTop = chatHTML!.scrollHeight)
-      : "";
+    !loading && !messagesLoading ? scrollToBottom() : "";
   }, [messages]);
 
   return { messages, messagesLoading, loading, sendPost };

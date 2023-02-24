@@ -1,11 +1,20 @@
 import React, { useEffect } from "react";
 
 function useHandleShortcut(props: {
-  userAction: string;
+  userAction: string | number;
   actionFunction: VoidFunction;
+  useCtrlKey?: boolean;
+  useEffectDependency?: any;
 }) {
+  //my own custom user shortcut handling function :)
+
   const keydownHandler = (e: { key: string; ctrlKey: any }) => {
-    if (e.key === props.userAction && e.ctrlKey) props.actionFunction();
+    if (props.useCtrlKey) {
+      if (e.key === props.userAction && e.ctrlKey) props.actionFunction();
+      return;
+    }
+
+    if (e.key === props.userAction) props.actionFunction();
   };
 
   useEffect(() => {
@@ -13,7 +22,7 @@ function useHandleShortcut(props: {
     return () => {
       document.removeEventListener("keydown", keydownHandler);
     };
-  }, []);
+  }, [props.useEffectDependency]);
 
   return [];
 }
