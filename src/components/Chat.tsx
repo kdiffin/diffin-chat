@@ -119,7 +119,7 @@ function Chat() {
   return (
     <div
       ref={messagesRef}
-      className="chat__container   relative  dark:bg-zinc-800   overflow-overlay   col-span-1 "
+      className="chat__container scroll-smooth   relative  dark:bg-zinc-800   overflow-overlay   col-span-1 "
     >
       <ChatHeader />
       {/* this is where the messages  go */}
