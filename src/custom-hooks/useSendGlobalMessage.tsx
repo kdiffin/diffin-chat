@@ -24,11 +24,15 @@ function useSendGlobalMessage(props: {
   //user thats logged in rn
   const [user, loading] = useAuthState(firebaseAuth as any);
 
+  console.log(user);
+
   const [messages, messagesLoading, error] = useCollection(
     firebaseDb
       .collection(props.collectionName)
       .orderBy("timestamp", "asc") as any
   );
+
+  const latestMessage = messages?.docs[messages?.docs.length - 1];
 
   function scrollToBottom() {
     chatHTML!.scrollTop = chatHTML!.scrollHeight;
@@ -75,7 +79,11 @@ function useSendGlobalMessage(props: {
 
   //the reason i made this a useEffect is cuz itll lag behind when doing it in the sendPost
   useEffect(() => {
-    !loading && !messagesLoading ? scrollToBottom() : "";
+    !loading &&
+    !messagesLoading &&
+    latestMessage?.data().name === user?.displayName
+      ? scrollToBottom()
+      : "";
   }, [messages]);
 
   return { messages, messagesLoading, loading, sendPost };
