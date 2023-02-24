@@ -86,6 +86,10 @@ function useSendGlobalMessage(props: {
       : "";
   }, [messages]);
 
+  useEffect(() => {
+    !loading && !messagesLoading ? scrollToBottom() : "";
+  }, [messagesLoading]);
+
   return { messages, messagesLoading, loading, sendPost };
 }
 
