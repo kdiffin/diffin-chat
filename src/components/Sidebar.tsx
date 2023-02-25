@@ -10,7 +10,7 @@ import DeblurIcon from "@mui/icons-material/Deblur";
 import MessageIcon from "@mui/icons-material/Message";
 import { useDispatch, useSelector } from "react-redux";
 
-import SidebarOption from "./SidebarOption";
+import SidebarOption from "./ui/SidebarOption";
 import { Link, useSearchParams } from "react-router-dom";
 import { firebaseAuth } from "../firebase";
 import {

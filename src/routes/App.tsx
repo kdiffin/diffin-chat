@@ -32,7 +32,6 @@ function App() {
   const search: any = useLoaderData();
 
   //todo: tooltip.tsx
-  //todo: delete messages
   //todo: rules dropdown
   //todo: push to db doc by id
   //todo: profiles

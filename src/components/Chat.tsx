@@ -11,6 +11,7 @@ import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import useHandleShortcut from "../custom-hooks/useHandleShortcut";
 import { Delete, DeleteOutline } from "@mui/icons-material";
 import { doc, deleteDoc } from "firebase/firestore";
+import Message from "./ui/Message";
 
 function Chat() {
   const messagesRef = useRef<HTMLDivElement>(null);
@@ -117,43 +118,20 @@ function Chat() {
 
           <div className="flex-col flex">
             {message.data().name === messages?.docs[index - 1]?.data().name ? (
-              <div className=" group flex items-center gap-3">
-                <div className="dark:bg-zinc-700/40   items-center flex  bg-zinc-200 h-auto ml-[55px] max-w-[1200px] break-all rounded-md p-4">
-                  <p>{message.data().message}</p>
-                </div>
-                {message.data().usersID === user?.uid && (
-                  <div
-                    onClick={() => deleteMessage(message.id)}
-                    className="group-hover:opacity-100 active:scale-95   opacity-0 transition-opacity"
-                  >
-                    <IconButton>
-                      <DeleteOutline />
-                    </IconButton>{" "}
-                  </div>
-                )}
-              </div>
+              <Message
+                message={message}
+                user={user}
+                deleteMessage={deleteMessage}
+              />
             ) : (
               <>
                 <p>{message.data().name} </p>
-                <div className=" group flex items-center gap-3">
-                  <div
-                    className="dark:bg-zinc-700/40 group items-center flex relative bg-zinc-200 mt-3 max-w-[1200px]
-               break-all mr-1  rounded-md p-4"
-                  >
-                    <p>{message.data().message}</p>
-                  </div>
-
-                  {message.data().usersID === user?.uid && (
-                    <div
-                      onClick={() => deleteMessage(message.id)}
-                      className="group-hover:opacity-100  active:scale-95 mt-2   opacity-0 transition-opacity"
-                    >
-                      <IconButton>
-                        <DeleteOutline />
-                      </IconButton>
-                    </div>
-                  )}
-                </div>
+                <Message
+                  message={message}
+                  user={user}
+                  deleteMessage={deleteMessage}
+                  messageBelowName={true}
+                />
               </>
             )}
           </div>
