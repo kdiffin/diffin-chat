@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import { DocumentData, QuerySnapshot } from "firebase/firestore";
 import React, { RefObject, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -12,8 +13,9 @@ function useSendGlobalMessage(props: {
 }): {
   messages: QuerySnapshot<DocumentData> | undefined;
   messagesLoading: boolean;
-  loading: boolean;
+  userLoading: boolean;
   sendPost: (e: { preventDefault: () => void }) => void;
+  user: User | null | undefined;
 } {
   // the chat itself so i can preform a function which scrolls to bottom when typed
   const chatHTML = props.containerRefValue.current;
@@ -22,9 +24,7 @@ function useSendGlobalMessage(props: {
   const inputRef = props.inputRef.current;
 
   //user thats logged in rn
-  const [user, loading] = useAuthState(firebaseAuth as any);
-
-  console.log(user);
+  const [user, userLoading] = useAuthState(firebaseAuth as any);
 
   const [messages, messagesLoading, error] = useCollection(
     firebaseDb
@@ -42,7 +42,7 @@ function useSendGlobalMessage(props: {
   function sendPost(e: { preventDefault: () => void }) {
     e.preventDefault();
 
-    if (loading && messagesLoading) {
+    if (userLoading && messagesLoading) {
       return;
     }
 
@@ -68,29 +68,24 @@ function useSendGlobalMessage(props: {
       return;
     }
 
-    firebaseDb.collection(props.collectionName).add({
-      message: inputValue,
-      name: user?.displayName,
-      profilePic: user?.photoURL,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    });
+    firebaseDb
+      .collection(props.collectionName)
+      .add({
+        message: inputValue,
+        name: user?.displayName,
+        usersID: user?.uid,
+        profilePic: user?.photoURL,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => scrollToBottom());
     inputRef!.value = "";
   }
 
-  //the reason i made this a useEffect is cuz itll lag behind when doing it in the sendPost
   useEffect(() => {
-    !loading &&
-    !messagesLoading &&
-    latestMessage?.data().name === user?.displayName
-      ? scrollToBottom()
-      : "";
-  }, [messages]);
-
-  useEffect(() => {
-    !loading && !messagesLoading ? scrollToBottom() : "";
+    !userLoading && !messagesLoading ? scrollToBottom() : "";
   }, [messagesLoading]);
 
-  return { messages, messagesLoading, loading, sendPost };
+  return { messages, messagesLoading, userLoading, sendPost, user };
 }
 
 export default useSendGlobalMessage;

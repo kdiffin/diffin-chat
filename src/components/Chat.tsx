@@ -1,4 +1,4 @@
-import { Avatar, Skeleton } from "@mui/material";
+import { Avatar, IconButton, Skeleton } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
@@ -9,19 +9,21 @@ import { useLocation } from "react-router-dom";
 import useSendGlobalMessage from "../custom-hooks/useSendGlobalMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import useHandleShortcut from "../custom-hooks/useHandleShortcut";
+import { Delete, DeleteOutline } from "@mui/icons-material";
+import { doc, deleteDoc } from "firebase/firestore";
 
 function Chat() {
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+
   //choosig to use a ref for the input cuz it state got really laggy really fast
 
-  const { messages, messagesLoading, loading, sendPost } = useSendGlobalMessage(
-    {
+  const { messages, messagesLoading, userLoading, sendPost, user } =
+    useSendGlobalMessage({
       containerRefValue: messagesRef,
       collectionName: "globalMessages",
       inputRef: inputRef,
-    }
-  );
+    });
 
   const chatHTML = messagesRef.current;
 
@@ -31,6 +33,20 @@ function Chat() {
     useCtrlKey: false,
     useEffectDependency: messagesLoading,
   });
+
+  function deleteMessage(docID: string) {
+    console.log(docID);
+    firebaseDb
+      .collection("globalMessages")
+      .doc(docID)
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+      });
+  }
 
   function scrollToBottom() {
     chatHTML!.scrollTop = chatHTML!.scrollHeight;
@@ -86,34 +102,64 @@ function Chat() {
   ));
 
   const messageListJsx = messages?.docs.map(
-    (message: QueryDocumentSnapshot<DocumentData>, index: number) => (
-      <div className="mt-4  flex  " key={message.id}>
-        {message.data().profilePic ===
-        messages?.docs[index - 1]?.data().profilePic ? (
-          <></>
-        ) : (
-          <Avatar
-            src={message.data().profilePic}
-            className="!w-10 !h-10  mr-4 col-span-full"
-          />
-        )}
-
-        <div className="flex-col flex">
-          {message.data().name === messages?.docs[index - 1]?.data().name ? (
-            <div className="dark:bg-zinc-700/40 bg-zinc-200 h-auto ml-[55px] max-w-[1200px] break-all rounded-md p-4">
-              <p>{message.data().message}</p>
-            </div>
+    (message: QueryDocumentSnapshot<DocumentData>, index: number) => {
+      return (
+        <div className="mt-4  flex " key={message.id}>
+          {message.data().profilePic ===
+          messages?.docs[index - 1]?.data().profilePic ? (
+            <></>
           ) : (
-            <>
-              <p>{message.data().name} </p>
-              <div className="dark:bg-zinc-700/40 bg-zinc-200 mt-3 max-w-[1200px] break-all mr-1  rounded-md p-4">
-                <p>{message.data().message}</p>
-              </div>
-            </>
+            <Avatar
+              src={message.data().profilePic}
+              className="!w-10 !h-10  mr-4 col-span-full"
+            />
           )}
+
+          <div className="flex-col flex">
+            {message.data().name === messages?.docs[index - 1]?.data().name ? (
+              <div className=" group flex items-center gap-3">
+                <div className="dark:bg-zinc-700/40   items-center flex  bg-zinc-200 h-auto ml-[55px] max-w-[1200px] break-all rounded-md p-4">
+                  <p>{message.data().message}</p>
+                </div>
+                {message.data().usersID === user?.uid && (
+                  <div
+                    onClick={() => deleteMessage(message.id)}
+                    className="group-hover:opacity-100 active:scale-95   opacity-0 transition-opacity"
+                  >
+                    <IconButton>
+                      <DeleteOutline />
+                    </IconButton>{" "}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <p>{message.data().name} </p>
+                <div className=" group flex items-center gap-3">
+                  <div
+                    className="dark:bg-zinc-700/40 group items-center flex relative bg-zinc-200 mt-3 max-w-[1200px]
+               break-all mr-1  rounded-md p-4"
+                  >
+                    <p>{message.data().message}</p>
+                  </div>
+
+                  {message.data().usersID === user?.uid && (
+                    <div
+                      onClick={() => deleteMessage(message.id)}
+                      className="group-hover:opacity-100  active:scale-95 mt-2   opacity-0 transition-opacity"
+                    >
+                      <IconButton>
+                        <DeleteOutline />
+                      </IconButton>
+                    </div>
+                  )}
+                </div>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    )
+      );
+    }
   );
 
   return (
@@ -125,7 +171,7 @@ function Chat() {
       {/* this is where the messages  go */}
       {/* weird 84% is so the input always stays at the bottom */}
       <div className="px-6 overflow min-h-[83%] p-1 dark:bg-zinc-800  ">
-        {messagesLoading || loading ? loadingPlaceholder : messageListJsx}
+        {messagesLoading || userLoading ? loadingPlaceholder : messageListJsx}
       </div>
       <ChatFooter ref={inputRef} sendPost={sendPost} />
     </div>
