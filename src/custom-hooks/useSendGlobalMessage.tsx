@@ -80,6 +80,11 @@ function useSendGlobalMessage(props: {
       .then(() => scrollToBottom());
     inputRef!.value = "";
   }
+  
+  useEffect(() => {
+    !userLoading && !messagesLoading ? scrollToBottom() : "";
+  }, [messages]);
+
 
   useEffect(() => {
     !userLoading && !messagesLoading ? scrollToBottom() : "";
