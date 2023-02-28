@@ -1,30 +1,36 @@
-import { Avatar, IconButton, Skeleton } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import { Avatar, Skeleton } from "@mui/material";
+import { useRef } from "react";
 import ChatHeader from "./ChatHeader";
 import ChatFooter from "./ChatFooter";
-import { firebaseAuth, firebaseDb, firebase } from "../firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { useLocation } from "react-router-dom";
+import { firebaseDb } from "../firebase";
 import useSendGlobalMessage from "../custom-hooks/useSendGlobalMessage";
 import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 import useHandleShortcut from "../custom-hooks/useHandleShortcut";
-import { Delete, DeleteOutline } from "@mui/icons-material";
-import { doc, deleteDoc } from "firebase/firestore";
 import Message from "./ui/Message";
 
 function Chat() {
   const messagesRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const urlImageInputRef = useRef<HTMLInputElement>(null);
 
   //choosig to use a ref for the input cuz it state got really laggy really fast
 
-  const { messages, messagesLoading, userLoading, sendPost, user } =
-    useSendGlobalMessage({
-      containerRefValue: messagesRef,
-      collectionName: "globalMessages",
-      inputRef: inputRef,
-    });
+  const {
+    messages,
+    messagesLoading,
+    userLoading,
+    sendPost,
+    user,
+    clearValueOfRef,
+    onFileChange,
+  } = useSendGlobalMessage({
+    containerRefValue: messagesRef,
+    collectionName: "globalMessages",
+    inputRef: inputRef,
+    fileInputRef: fileInputRef,
+    urlImageInputRef: urlImageInputRef,
+  });
 
   const chatHTML = messagesRef.current;
 
@@ -36,14 +42,10 @@ function Chat() {
   });
 
   function deleteMessage(docID: string) {
-    console.log(docID);
     firebaseDb
       .collection("globalMessages")
       .doc(docID)
       .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
-      })
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
@@ -55,21 +57,21 @@ function Chat() {
 
   const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
-    <div className="flex mt-5" key={index}>
+    <div className="mt-5 flex" key={index}>
       <Skeleton
         variant="circular"
         width={45}
         height={45}
-        className="mr-5 dark:!bg-zinc-700 !bg-zinc-200 "
+        className="mr-5 !bg-zinc-200 dark:!bg-zinc-700 "
       />
-      <div className="flex-col flex">
+      <div className="flex flex-col">
         <Skeleton
           variant="text"
           sx={{
             fontSize: "1.2rem",
             width: "100px",
           }}
-          className="dark:!bg-zinc-700 !bg-zinc-200"
+          className="!bg-zinc-200 dark:!bg-zinc-700"
         />
         <Skeleton
           variant="rounded"
@@ -78,7 +80,7 @@ function Chat() {
             height: "35px",
             marginTop: "12px",
           }}
-          className="dark:!bg-zinc-700 !bg-zinc-200"
+          className="!bg-zinc-200 dark:!bg-zinc-700"
         />
         <Skeleton
           variant="rounded"
@@ -87,7 +89,7 @@ function Chat() {
             height: "35px",
             marginTop: "12px",
           }}
-          className="dark:!bg-zinc-700 !bg-zinc-200"
+          className="!bg-zinc-200 dark:!bg-zinc-700"
         />
         <Skeleton
           variant="rounded"
@@ -96,7 +98,7 @@ function Chat() {
             height: "35px",
             marginTop: "12px",
           }}
-          className="dark:!bg-zinc-700 !bg-zinc-200"
+          className="!bg-zinc-200 dark:!bg-zinc-700"
         />
       </div>
     </div>
@@ -106,22 +108,24 @@ function Chat() {
     (message: QueryDocumentSnapshot<DocumentData>, index: number) => {
       return (
         <div className="mt-4  flex " key={message.id}>
-          {message.data().profilePic ===
-          messages?.docs[index - 1]?.data().profilePic ? (
+          {message.data().usersID ===
+          messages?.docs[index - 1]?.data().usersID ? (
             <></>
           ) : (
             <Avatar
               src={message.data().profilePic}
-              className="!w-10 !h-10  mr-4 col-span-full"
+              className="col-span-full mr-4  !h-10 !w-10"
             />
           )}
 
-          <div className="flex-col flex">
-            {message.data().name === messages?.docs[index - 1]?.data().name ? (
+          <div className="flex flex-col">
+            {message.data().usersID ===
+            messages?.docs[index - 1]?.data().usersID ? (
               <Message
                 message={message}
                 user={user}
                 deleteMessage={deleteMessage}
+                showImage={!(message.data().messageImg === "" || undefined)}
               />
             ) : (
               <>
@@ -131,6 +135,7 @@ function Chat() {
                   user={user}
                   deleteMessage={deleteMessage}
                   messageBelowName={true}
+                  showImage={!(message.data().messageImg === "" || undefined)}
                 />
               </>
             )}
@@ -143,15 +148,22 @@ function Chat() {
   return (
     <div
       ref={messagesRef}
-      className="chat__container scroll-smooth   relative  dark:bg-zinc-800   overflow-overlay   col-span-1 "
+      className="chat__container overflow-overlay   relative  col-span-1   scroll-smooth   dark:bg-zinc-800 "
     >
       <ChatHeader />
       {/* this is where the messages  go */}
       {/* weird 84% is so the input always stays at the bottom */}
-      <div className="px-6 overflow min-h-[83%] p-1 dark:bg-zinc-800  ">
+      <div className="overflow min-h-[83%] p-1 px-6 dark:bg-zinc-800  ">
         {messagesLoading || userLoading ? loadingPlaceholder : messageListJsx}
       </div>
-      <ChatFooter ref={inputRef} sendPost={sendPost} />
+      <ChatFooter
+        inputRef={inputRef}
+        sendPost={sendPost}
+        clearValueOfRef={clearValueOfRef}
+        imageInputRef={urlImageInputRef}
+        fileInputRef={fileInputRef}
+        onFileChange={onFileChange}
+      />
     </div>
   );
 }

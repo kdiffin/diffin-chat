@@ -34,7 +34,7 @@ function UserChat() {
       <div className="px-6 overflow min-h-[84%] p-1 italic text-zinc-500 dark:bg-zinc-800  ">
         Private messaging is still in WIP.
       </div>
-      <ChatFooter sendPost={sendPost} />
+      {/* <ChatFooter sendPost={sendPost} /> */}
     </div>
   );
 }

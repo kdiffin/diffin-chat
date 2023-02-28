@@ -9,21 +9,27 @@ function Message(props: {
   user: User | null | undefined;
   deleteMessage: (args: any) => void;
   messageBelowName?: boolean;
+  showImage: boolean;
 }) {
   return (
-    <div className=" group flex items-center gap-3">
+    <div className=" group flex  items-center gap-3">
       <div
-        className={`dark:bg-zinc-700/40   items-center flex  bg-zinc-200 h-auto
-        ${
-          props.messageBelowName ? "mt-3" : "ml-[55px]"
-        } max-w-[1200px] break-all rounded-md p-4`}
+        className={`flex h-auto flex-col items-center  break-all rounded-md bg-zinc-200 p-4 dark:bg-zinc-700/40
+        ${props.messageBelowName ? "mt-3" : "ml-[55px]"} 
+        ${props.showImage ? `max-w-[350px] ` : "max-w-[1000px]"} `}
       >
-        <p>{props.message.data().message}</p>
+        <p className="text-left">{props.message.data().message}</p>
+        {props.showImage ? (
+          <img src={props.message.data().messageImg} alt="" className="mt-2" />
+        ) : (
+          <p></p>
+        )}
       </div>
+
       {props.message.data().usersID === props.user?.uid && (
         <div
           onClick={() => props.deleteMessage(props.message.id)}
-          className={`group-hover:opacity-100 active:scale-95 
+          className={`active:scale-95 group-hover:opacity-100 
           ${props.messageBelowName ? "mt-3" : ""} 
           opacity-0 transition-opacity`}
         >

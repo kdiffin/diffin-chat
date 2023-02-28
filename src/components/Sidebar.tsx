@@ -46,7 +46,7 @@ function Sidebar(props: {
 
   return (
     <div
-      className={`flex  dark:zincbg dark:border-none   border-r-zinc-300 border-r-2 py-10 transition-all 
+      className={`dark:zincbg  flex border-r-2 border-r-zinc-300 py-10 transition-all dark:border-none 
        ${props.expandSidebar ? "pl-14 " : "items-center "} flex-col`}
     >
       <Link to="/" className={`${props.expandSidebar ? " scale-110" : ""}`}>

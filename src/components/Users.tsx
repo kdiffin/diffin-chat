@@ -85,9 +85,9 @@ function Users(props: { search: any }) {
           className="relative"
         >
           <div
-            className="opacity-0 transition-opacity duration-300 break-all ease-linear group-hover:opacity-100 flex 
-          w-[45px] text-white overflow-hidden z-50 text-[9px] justify-center items-center  
-            absolute flex-wrap h-[45px] bg-zinc-900/80 rounded-[30px] font-semibold   "
+            className="absolute z-50 flex h-[45px] w-[45px] flex-wrap items-center 
+          justify-center overflow-hidden break-all rounded-[30px] bg-zinc-900/80 text-[9px] font-semibold  
+            text-white opacity-0 transition-opacity duration-300 ease-linear group-hover:opacity-100   "
           >
             {user?.data().name}
           </div>
@@ -106,9 +106,9 @@ function Users(props: { search: any }) {
 
   return (
     <div
-      className="col-span-full w-screen h-15 items-center flex  
+      className="h-15 dark:zincbg col-span-full flex w-screen  
       
-    border-t-zinc-300 border-t-2 dark:border-none dark:zincbg
+    items-center border-t-2 border-t-zinc-300 dark:border-none
       "
     >
       <Tabs
@@ -132,7 +132,7 @@ function Users(props: { search: any }) {
               <Avatar
                 onClick={() => navigate("/")}
                 sx={{ width: 45, height: 45, backgroundColor: "transparent" }}
-                className="border-[1px] dark:border-zinc-700 border-zinc-300 !text-zinc-600 dark:!text-white"
+                className="border-[1px] border-zinc-300 !text-zinc-600 dark:border-zinc-700 dark:!text-white"
               >
                 <Language />
               </Avatar>
@@ -143,7 +143,7 @@ function Users(props: { search: any }) {
         {loading ? loadingPlaceholder : userList}
       </Tabs>
       {userList?.length === 0 && !loading ? (
-        <p className="italic absolute left-10  text-zinc-600 text-lg ml-2  animate-pulse">
+        <p className="absolute left-10 ml-2  animate-pulse text-lg italic  text-zinc-600">
           No users found...
         </p>
       ) : (

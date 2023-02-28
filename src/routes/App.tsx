@@ -31,7 +31,6 @@ function App() {
   const navigate = useNavigate();
   const search: any = useLoaderData();
 
-  //todo: tooltip.tsx
   //todo: rules dropdown
   //todo: push to db doc by id
   //todo: profiles
@@ -62,8 +61,8 @@ function App() {
 
   return (
     <div
-      className={` dark:bg-zinc-800 dark:text-white guaranteed-transition bg-zinc-200/50 
-       [&>*]:transition [&>*]:duration-500  app menu h-screen text-zinc-700
+      className={` guaranteed-transition app menu h-screen 
+       bg-zinc-200/50 text-zinc-700  dark:bg-zinc-800 dark:text-white [&>*]:transition [&>*]:duration-500
       ${expandSidebar ? "openSidebar" : "closedSidebar"}  `}
     >
       <Sidebar

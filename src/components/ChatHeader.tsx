@@ -1,5 +1,5 @@
 import { CameraAlt, Info, Phone, Radar, Search } from "@mui/icons-material";
-import { Avatar } from "@mui/material";
+import { Avatar, IconButton } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import {
   Form,
@@ -29,9 +29,9 @@ function ChatHeader(props: {
 
   return (
     <div
-      className=" flex  dark:zincbg z-10   h-12 border-b-zinc-300  transition transition-700
-      bg-[#ececee]    top-0 sticky  p-4 py-7   border-b-2 dark:border-zinc-700   
-      items-center justify-between "
+      className=" dark:zincbg  transition-700 sticky   top-0 z-10  flex h-12
+      items-center    justify-between border-b-2  border-b-zinc-300 bg-[#ececee]   p-4 py-7   
+      transition dark:border-zinc-700 "
     >
       <div className="flex items-center">
         {location.pathname === "/" ? (
@@ -49,8 +49,8 @@ function ChatHeader(props: {
 
       <Form
         className={`${showSearchbar ? " openSearchbar " : " closeSearchbar  "} 
-        chatInput__background items-center px-5 p-1 hover-info-container relative
-          dark:bg-zinc-700 bg-zinc-300 justify-center rounded-md flex `}
+        chatInput__background hover-info-container relative flex items-center justify-center
+          rounded-md bg-zinc-300 p-1 px-5 dark:bg-zinc-700 `}
         id="search-form"
         role="search"
         //automatically submits the form when typing and removes useless history
@@ -60,7 +60,7 @@ function ChatHeader(props: {
           id="search"
           defaultValue={search}
           placeholder="find user"
-          className="w-full   outline-none h-inherit   focus:bg-zinc-600 bg-inherit rounded-lg "
+          className="h-inherit   w-full rounded-lg   bg-inherit outline-none focus:bg-zinc-600 "
           autoComplete="off"
           spellCheck="false"
           type="text"
@@ -72,19 +72,20 @@ function ChatHeader(props: {
           }}
           name="search"
         />
-        <Info className="dark:text-zinc-500 text-zinc-400 cursor-help  italic !text-[20px] hover-info " />
+        <Info className="hover-info cursor-help !text-[20px]  italic text-zinc-400 dark:text-zinc-500 " />
         <div
-          className="opacity-0   min-w-max info-tooltip  px-3 p-2 text-sm rounded-md transition-all duration-300 
-        absolute items-center top-12 right-0 dark:bg-zinc-900/80 dark:text-zinc-300 text-zinc-800 mt-2 italic bg-zinc-200 z-10  "
+          className="info-tooltip   absolute top-12  right-0 z-10 mt-2 min-w-max items-center rounded-md 
+        bg-zinc-200 p-2 px-3 text-sm italic text-zinc-800 opacity-0 transition-all duration-300 dark:bg-zinc-900/80 dark:text-zinc-300  "
         >
           to automatically use the searchbar, use ctrl+"
         </div>{" "}
       </Form>
 
       <div>
-        <Phone className="!hidden sm:!inline" />
-
-        <CameraAlt className="ml-4 !hidden sm:!inline" />
+        {/* <Phone className="!hidden sm:!inline" /> */}
+        <IconButton>
+          <Info className="ml-4 !hidden sm:!inline" />
+        </IconButton>
       </div>
     </div>
   );

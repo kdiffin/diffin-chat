@@ -35,16 +35,16 @@ function Login() {
   }, [userAccount, loading]);
 
   return (
-    <div className="h-screen relative  gap-4 flex-col items-center flex  justify-center text-white bg-zinc-800 ">
-      <div className="absolute top-0 left-0 border-r-zinc-700 border-r-2 w-1/4 custom__bg  h-screen"></div>
-      <DeblurIcon className="sm:!text-[230px] !text-[180px]" />
-      <p className="text-zinc-600 italic mb-2 pointer-events-none select-none">
+    <div className="relative flex  h-screen flex-col items-center justify-center  gap-4 bg-zinc-800 text-white ">
+      <div className="custom__bg absolute top-0 left-0 h-screen w-1/4 border-r-2  border-r-zinc-700"></div>
+      <DeblurIcon className="!text-[180px] sm:!text-[230px]" />
+      <p className="pointer-events-none mb-2 select-none italic text-zinc-600">
         (i'll be seeing ur email address)
       </p>
       <Button
         onClick={login}
         variant="contained"
-        className="sm:w-64 w-3/4     !bg-zinc-900 !p-2"
+        className="w-3/4 !bg-zinc-900     !p-2 sm:w-64"
       >
         Login
       </Button>
