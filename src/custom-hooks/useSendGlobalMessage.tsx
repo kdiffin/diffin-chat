@@ -158,11 +158,6 @@ function useSendGlobalMessage(props: {
     clearValueOfRef(urlImageInputRef);
     clearValueOfRef(fileInputRef);
   }
-  
-  useEffect(() => {
-    !userLoading && !messagesLoading ? scrollToBottom() : "";
-  }, [messages]);
-
 
   useEffect(() => {
     !userLoading && !messagesLoading ? scrollToBottom() : "";

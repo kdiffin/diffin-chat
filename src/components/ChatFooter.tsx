@@ -80,21 +80,6 @@ function ChatFooter(
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    setShowUploadImage(false);
-                    setShowSendURLImage(true);
-                  }}
-                  className="flex   cursor-pointer select-none 
-                   items-center !p-3 active:scale-95  "
-                >
-                  <MUILinkIcon fontSize="small"></MUILinkIcon>
-                  <p className="ml-1  text-sm">Upload image by URL</p>
-                </button>
-
-                <hr className="h-[0.1px] border-none bg-white dark:bg-zinc-700" />
-
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
                     props.fileInputRef?.current?.click();
                     setShowUploadImage(false);
                     setShowImagePreview(true);
@@ -104,6 +89,21 @@ function ChatFooter(
                 >
                   <InsertDriveFileIcon fontSize="small"></InsertDriveFileIcon>
                   <p className="ml-1  text-sm">Upload image by file</p>
+                </button>
+
+                <hr className="hidden h-[0.1px] border-none bg-white dark:bg-zinc-700" />
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowUploadImage(false);
+                    setShowSendURLImage(true);
+                  }}
+                  className="flex   cursor-pointer select-none 
+                   items-center !p-3 active:scale-95  "
+                >
+                  <MUILinkIcon fontSize="small"></MUILinkIcon>
+                  <p className="ml-1  text-sm">Upload image by URL</p>
                 </button>
               </div>
             ) : null}
