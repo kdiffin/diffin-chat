@@ -76,7 +76,7 @@ function ChatFooter(
             ) : null}
 
             {showUploadImage ? (
-              <div className=" absolute  -top-28 left-0 rounded-lg bg-zinc-300 text-zinc-800 dark:bg-zinc-900 dark:text-white">
+              <div className=" absolute  -top-14 left-0 rounded-lg bg-zinc-300 text-zinc-800 dark:bg-zinc-900 dark:text-white">
                 <button
                   onClick={(e) => {
                     e.preventDefault();
