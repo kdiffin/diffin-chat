@@ -99,7 +99,7 @@ function ChatFooter(
                     setShowUploadImage(false);
                     setShowImagePreview(true);
                   }}
-                  className="flex   cursor-pointer select-none 
+                  className="hidden  cursor-pointer select-none 
                    items-center !p-3 active:scale-95  "
                 >
                   <InsertDriveFileIcon fontSize="small"></InsertDriveFileIcon>
