@@ -16,7 +16,7 @@ import { selectSearchbar } from "../redux/searchbarSlice";
 function ChatHeader(props: {
   userAvatar?: string;
   userName?: string;
-  openPopUp: VoidFunction;
+  openPopUp?: VoidFunction;
   search?: boolean;
 }) {
   const location = useLocation();
