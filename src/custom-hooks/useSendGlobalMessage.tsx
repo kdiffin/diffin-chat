@@ -34,7 +34,6 @@ function useSendGlobalMessage(props: {
 
   //the state of the image file that gets previewed in chatfooter
   const [imageUpload, setImageUpload] = useState<null | File>(null);
-  console.log(imageUpload);
   // the chat itself so i can preform a function which scrolls to bottom when typed
   const chatHTML = props.containerRefValue.current;
 

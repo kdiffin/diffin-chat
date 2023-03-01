@@ -16,6 +16,7 @@ import { selectSearchbar } from "../redux/searchbarSlice";
 function ChatHeader(props: {
   userAvatar?: string;
   userName?: string;
+  openPopUp: VoidFunction;
   search?: boolean;
 }) {
   const location = useLocation();
@@ -83,7 +84,7 @@ function ChatHeader(props: {
 
       <div>
         {/* <Phone className="!hidden sm:!inline" /> */}
-        <IconButton>
+        <IconButton onClick={props.openPopUp}>
           <Info className="ml-4 !hidden sm:!inline" />
         </IconButton>
       </div>

@@ -9,6 +9,8 @@ import { firebaseAuth } from "../firebase";
 import useHandleShortcut from "../custom-hooks/useHandleShortcut";
 import { useDispatch, useSelector } from "react-redux";
 import { openSearchbar, selectSearchbar } from "../redux/searchbarSlice";
+import { closePopup, openPopup, selectPopup } from "../redux/popupSlice";
+import RulesPopUp from "../components/RulesPopUp";
 
 export async function loader({ request }: any) {
   const url = new URL(request.url);
@@ -20,6 +22,7 @@ function App() {
   const [expandSidebar, setExpandSidebar] = useState(false);
   const [closeUsers, setCloseUsers] = useState(false);
   const showSearchbar = useSelector(selectSearchbar);
+  const showPopup = useSelector(selectPopup);
   const dispatch = useDispatch();
   const [] = useHandleShortcut({
     userAction: "'",
@@ -46,6 +49,16 @@ function App() {
       searchObj.focus();
     }
   }
+
+  //handles the rules popup
+  useEffect(() => {
+    const data = localStorage.getItem("firsttimevisitor");
+
+    if (data === null) {
+      dispatch(openPopup());
+      localStorage.setItem("firsttimevisitor", "false");
+    }
+  }, []);
 
   //this is basically so that if the dude types in something to the searchbar it sets that string to the searches value
   useEffect(() => {
@@ -75,6 +88,10 @@ function App() {
       />
       <Outlet />
       <Users search={search} />
+      <RulesPopUp
+        isPopUpOpen={showPopup}
+        closePopUp={() => dispatch(closePopup())}
+      />
     </div>
   );
 }

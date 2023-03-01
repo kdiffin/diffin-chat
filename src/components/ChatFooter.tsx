@@ -128,19 +128,19 @@ function ChatFooter(
         {showImagePreview ? (
           <div
             className="dark:zincbg absolute right-5 -top-[280px] flex h-[280px] 
-          max-w-[350px] items-center justify-center rounded-t-xl bg-zinc-200  md:w-1/3"
+          w-full max-w-[350px] items-center justify-center overflow-hidden rounded-t-xl bg-zinc-200  md:w-1/3"
           >
-            <p className="text-lg italic text-zinc-600 ">
-              {props.imageUpload ? (
-                <img
-                  src={URL.createObjectURL(props.imageUpload)}
-                  alt={props.imageUpload.name}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                "No image uploaded"
-              )}
-            </p>
+            {props.imageUpload ? (
+              <img
+                src={URL.createObjectURL(props.imageUpload)}
+                alt={props.imageUpload.name}
+                className="  max-h-[inherit]    object-cover "
+              />
+            ) : (
+              <p className="text-lg italic text-zinc-600  ">
+                No image uploaded
+              </p>
+            )}
             <IconButton
               className="!absolute !top-2 !right-2"
               onClick={() => {
