@@ -24,6 +24,8 @@ function Chat() {
     user,
     clearValueOfRef,
     onFileChange,
+    imageUpload,
+    setImageUpload,
   } = useSendGlobalMessage({
     containerRefValue: messagesRef,
     collectionName: "globalMessages",
@@ -157,8 +159,10 @@ function Chat() {
         {messagesLoading || userLoading ? loadingPlaceholder : messageListJsx}
       </div>
       <ChatFooter
-        inputRef={inputRef}
         sendPost={sendPost}
+        imageUpload={imageUpload}
+        setImageUpload={setImageUpload}
+        inputRef={inputRef}
         clearValueOfRef={clearValueOfRef}
         imageInputRef={urlImageInputRef}
         fileInputRef={fileInputRef}

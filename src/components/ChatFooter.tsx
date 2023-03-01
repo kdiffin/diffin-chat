@@ -1,7 +1,9 @@
 import React, {
+  Dispatch,
   forwardRef,
   MouseEventHandler,
   RefObject,
+  SetStateAction,
   useRef,
   useState,
 } from "react";
@@ -24,12 +26,13 @@ function ChatFooter(
     imageInputRef: RefObject<HTMLInputElement> | undefined;
     clearValueOfRef(ref: HTMLInputElement | null): void;
     onFileChange: (e: any) => void;
+    imageUpload: null | File;
+    setImageUpload: Dispatch<SetStateAction<null | File>>;
   }
 ) {
   const [showUploadImage, setShowUploadImage] = useState(false);
   const [showImagePreview, setShowImagePreview] = useState(false);
   const [showSendURLImage, setShowSendURLImage] = useState(false);
-
   return (
     <div
       className=" sticky bottom-0 z-10  flex  items-center  justify-center
@@ -76,23 +79,7 @@ function ChatFooter(
             ) : null}
 
             {showUploadImage ? (
-              <div className=" absolute  -top-14 left-0 rounded-lg bg-zinc-300 text-zinc-800 dark:bg-zinc-900 dark:text-white">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.fileInputRef?.current?.click();
-                    setShowUploadImage(false);
-                    setShowImagePreview(true);
-                  }}
-                  className="hidden  cursor-pointer select-none 
-                   items-center !p-3 active:scale-95  "
-                >
-                  <InsertDriveFileIcon fontSize="small"></InsertDriveFileIcon>
-                  <p className="ml-1  text-sm">Upload image by file</p>
-                </button>
-
-                <hr className="hidden h-[0.1px] border-none bg-white dark:bg-zinc-700" />
-
+              <div className=" absolute  -top-28 left-0 rounded-lg bg-zinc-300 text-zinc-800 dark:bg-zinc-900 dark:text-white">
                 <button
                   onClick={(e) => {
                     e.preventDefault();
@@ -104,6 +91,22 @@ function ChatFooter(
                 >
                   <MUILinkIcon fontSize="small"></MUILinkIcon>
                   <p className="ml-1  text-sm">Upload image by URL</p>
+                </button>
+
+                <hr className="h-[0.1px] border-none bg-white dark:bg-zinc-700" />
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.fileInputRef?.current?.click();
+                    setShowUploadImage(false);
+                    setShowImagePreview(true);
+                  }}
+                  className="flex   cursor-pointer select-none 
+                   items-center !p-3 active:scale-95  "
+                >
+                  <InsertDriveFileIcon fontSize="small"></InsertDriveFileIcon>
+                  <p className="ml-1  text-sm">Upload image by file</p>
                 </button>
               </div>
             ) : null}
@@ -127,12 +130,23 @@ function ChatFooter(
             className="dark:zincbg absolute right-5 -top-[280px] flex h-[280px] 
           max-w-[350px] items-center justify-center rounded-t-xl bg-zinc-200  md:w-1/3"
           >
-            <p className="text-lg italic text-zinc-600 ">No image uploaded</p>
+            <p className="text-lg italic text-zinc-600 ">
+              {props.imageUpload ? (
+                <img
+                  src={URL.createObjectURL(props.imageUpload)}
+                  alt={props.imageUpload.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                "No image uploaded"
+              )}
+            </p>
             <IconButton
               className="!absolute !top-2 !right-2"
               onClick={() => {
                 // its ok to set this as ! cuz i added checking for undefined in the function itself
                 props.clearValueOfRef(props.fileInputRef!.current);
+                props.setImageUpload(null);
                 setShowImagePreview((prevState) => !prevState);
               }}
             >

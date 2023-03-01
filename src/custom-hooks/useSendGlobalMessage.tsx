@@ -1,7 +1,7 @@
 import { v4 } from "uuid";
 import { User } from "firebase/auth";
 import { DocumentData, QuerySnapshot } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { RefObject, SetStateAction, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollection } from "react-firebase-hooks/firestore";
@@ -34,7 +34,7 @@ function useSendGlobalMessage(props: {
 
   //the state of the image file that gets previewed in chatfooter
   const [imageUpload, setImageUpload] = useState<null | File>(null);
-
+  console.log(imageUpload);
   // the chat itself so i can preform a function which scrolls to bottom when typed
   const chatHTML = props.containerRefValue.current;
 
@@ -87,7 +87,7 @@ function useSendGlobalMessage(props: {
     const imageURLValue = urlImageInputRef?.value;
     const fileInputValue = fileInputRef?.value;
 
-    if (inputValue === "") {
+    if (inputValue === "" && !imageURLValue) {
       return;
     }
 
@@ -103,25 +103,6 @@ function useSendGlobalMessage(props: {
       }
     }
 
-    if (fileInputValue) {
-      if (imageUpload == null) {
-        fileInputRef!.value = "";
-        alert("dont send with no image");
-        return;
-      }
-
-      const imageRef = ref(
-        firebaseStorage,
-        `images/${imageUpload.name + v4()}`
-      );
-
-      uploadBytes(imageRef, imageUpload).then(() => {
-        alert(" image uploaded");
-      });
-    }
-
-    console.log(imageUpload);
-
     //ok to use ! for the types here i think because i already made it so that when its loading/messagesloading it returns
     if (
       inputValue!.length > 800 ||
@@ -136,9 +117,53 @@ function useSendGlobalMessage(props: {
     const trimmedInput = inputValue?.trim();
     const inputList = trimmedInput!.split(" ");
 
-    if (inputList[0] === "") {
+    if (inputList[0] === "" && !imageURLValue) {
       inputRef!.value = "";
       alert("dont do that bro");
+      return;
+    }
+
+    // the way this function works is that when you send a message with a file in it,
+    // it then sends that file to the cloud storage in firebase which then,
+    // parses it and turns it into a url which an <img> tag can read, and then
+    // it sends that url to my database.
+    if (fileInputValue) {
+      if (imageUpload == null) {
+        fileInputRef!.value = "";
+        alert("dont send with no image");
+        return;
+      }
+
+      const imageName = `images/${imageUpload.name + v4()}`;
+
+      const imageRef = ref(firebaseStorage, imageName);
+
+      let imageUrl = "";
+
+      uploadBytes(imageRef, imageUpload)
+        .then(() =>
+          getDownloadURL(ref(firebaseStorage, imageName)).then((url) => {
+            imageUrl = url;
+          })
+        )
+        .then(() =>
+          firebaseDb
+            .collection(props.collectionName)
+            .add({
+              message: inputValue,
+              name: user?.displayName,
+              messageImg: imageUrl,
+              usersID: user?.uid,
+              profilePic: user?.photoURL,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            })
+            .then(() => scrollToBottom())
+        );
+      clearValueOfRef(inputRef);
+      clearValueOfRef(urlImageInputRef);
+      clearValueOfRef(fileInputRef);
+      setImageUpload(null);
+
       return;
     }
 
