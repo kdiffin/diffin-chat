@@ -10,6 +10,7 @@ import Message from "./ui/Message";
 import RulesPopUp from "./RulesPopUp";
 import { openPopup } from "../redux/popupSlice";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Chat() {
   //choosig to use a ref for the input cuz it state got really laggy really fast
@@ -124,12 +125,16 @@ function Chat() {
           messages?.docs[index - 1]?.data().usersID ? (
             <></>
           ) : (
-            <Avatar
-              src={message.data().profilePic}
-              className="col-span-full mr-4  !h-10 !w-10 lowercase"
+            <Link
+              to={`profiles/${message.data().name}/${message.data().usersID}`}
             >
-              {message.data().name[0] + message.data().name[1]}
-            </Avatar>
+              <Avatar
+                src={message.data().profilePic}
+                className="col-span-full mr-4  !h-10 !w-10 lowercase"
+              >
+                {message.data().name[0] + message.data().name[1]}
+              </Avatar>
+            </Link>
           )}
 
           <div className="flex flex-col">

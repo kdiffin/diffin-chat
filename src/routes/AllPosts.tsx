@@ -19,7 +19,7 @@ function AllPosts() {
     firebaseDb.collection("allPosts").orderBy("timestamp", filter as any) as any
   );
   const [showDropdown, setShowDropdown] = useState(false);
-  const { profileName, profilePic, selfUserId } = useGetActualUser();
+  const { selfUserId } = useGetActualUser();
 
   function deletePost(docID: string) {
     firebaseDb
@@ -96,8 +96,8 @@ function AllPosts() {
       <div className=" grid grid-flow-dense  justify-center gap-5 p-7 sm:grid-cols-2   xl:grid-cols-3 2xl:grid-cols-4 ">
         {allPosts?.docs.map((post) => (
           <Post
-            profilePic={profilePic}
-            profileName={profileName}
+            profilePic={post.data().profilePic || ""}
+            profileName={post.data().profileName || "no name"}
             allPostsPost={true}
             title={post.data().title}
             className={post.data().rowSpan}

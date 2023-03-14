@@ -36,7 +36,8 @@ function CreatePost() {
   const [postImageURL, setPostImageURL] = useState("");
   const [postBottomText, setPostBottomText] = useState("");
   const postImageRef: any = useRef();
-  const { selfUserInfoRef, profileName, selfUserId } = useGetActualUser();
+  const { selfUserInfoRef, profileName, selfUserId, profilePic } =
+    useGetActualUser();
   const navigate = useNavigate();
 
   function uploadPostImage(e: React.ChangeEvent<HTMLInputElement>) {
@@ -144,6 +145,7 @@ function CreatePost() {
         .doc(idOfPost)
         .set({
           title: postTitle,
+
           image: postImageURL,
           bottomText: postBottomText,
           rowSpan: rowSpanOfPost,
@@ -160,6 +162,8 @@ function CreatePost() {
         .doc(idOfPost)
         .set({
           title: postTitle,
+          profilePic: profilePic,
+          profileName: profileName,
           image: URL.createObjectURL(postImage),
           bottomText: postBottomText,
           rowSpan: rowSpanOfPost,
@@ -171,6 +175,9 @@ function CreatePost() {
       firebaseDb.collection("allPosts").doc(idOfPost).set({
         title: postTitle,
         image: postImageURL,
+        profilePic: profilePic,
+        profileName: profileName,
+
         bottomText: postBottomText,
         rowSpan: rowSpanOfPost,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
