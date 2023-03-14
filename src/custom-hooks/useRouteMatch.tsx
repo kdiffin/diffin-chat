@@ -11,6 +11,7 @@ function useRouteMatch(patterns: readonly string[]) {
     const pattern = patterns[i];
 
     const possibleMatch = matchPath(pattern, pathname);
+
     // the %20 gets converted into a space, i wrote some comments and code about this in users.tsx
     // basically make a function which maps over the array and then replaces the " " with %20
     // arr.map((item: string) => item.replace(" ", %20))

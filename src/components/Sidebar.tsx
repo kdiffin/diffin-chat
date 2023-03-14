@@ -1,4 +1,4 @@
-import { DarkMode, LightMode, Logout } from "@mui/icons-material";
+import { DarkMode, Info, LightMode, Logout } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import ExploreIcon from "@mui/icons-material/Explore";
 import SlowMotionVideoIcon from "@mui/icons-material/SlowMotionVideo";
@@ -12,12 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 import SidebarOption from "./ui/SidebarOption";
 import { Link, useSearchParams } from "react-router-dom";
-import { firebaseAuth } from "../firebase";
+import { firebaseAuth, firebaseDb } from "../firebase";
 import {
   closeSearchbar,
   openSearchbar,
   selectSearchbar,
 } from "../redux/searchbarSlice";
+import popupSlice, { openPopup, selectPopup } from "../redux/popupSlice";
+import { Avatar } from "@mui/material";
+import { useDocument } from "react-firebase-hooks/firestore";
+import useGetActualUser from "../custom-hooks/useGetActualUser";
 
 function Sidebar(props: {
   expandSidebar: boolean;
@@ -30,10 +34,27 @@ function Sidebar(props: {
   const showSearchbar = useSelector(selectSearchbar);
   const dispatch = useDispatch();
   const [searchParams, setSearchParams] = useSearchParams();
+  const {
+    selfUserData,
+    selfUserInfo,
+    selfUserInfoLoading,
+    profileName,
+    profilePic,
+  } = useGetActualUser();
 
   function closeSearchbarFunc() {
     dispatch(closeSearchbar());
     setSearchParams("");
+  }
+
+  function openSidebar() {
+    if (!props.expandSidebar && window.innerWidth > 1200) {
+      props.setExpandSidebar(true);
+      localStorage.setItem("expandSidebar", "true");
+    } else {
+      props.setExpandSidebar(false);
+      localStorage.setItem("expandSidebar", "false");
+    }
   }
 
   function showSearch() {
@@ -41,7 +62,7 @@ function Sidebar(props: {
   }
 
   function signOut() {
-    firebaseAuth.signOut().catch((error) => alert(error.message));
+    firebaseAuth.signOut().catch((error) => console.error(error));
   }
 
   return (
@@ -57,7 +78,7 @@ function Sidebar(props: {
       </Link>
 
       <div
-        className={`mt-12 flex flex-col justify-center  last:mb-4  ${
+        className={`mt-12 flex flex-col justify-center   last:mb-4  ${
           props.expandSidebar ? " mt-16" : " items-center "
         }`}
       >
@@ -68,16 +89,14 @@ function Sidebar(props: {
           Icon={<SearchIcon />}
         />
 
-        <SidebarOption
-          text="Explore"
-          expandSidebar={props.expandSidebar}
-          Icon={<ExploreIcon />}
-        />
-        <SidebarOption
-          text="Videos "
-          expandSidebar={props.expandSidebar}
-          Icon={<SlowMotionVideoIcon />}
-        />
+        <Link to="/all-posts">
+          <SidebarOption
+            text="All Posts"
+            expandSidebar={props.expandSidebar}
+            Icon={<SlowMotionVideoIcon />}
+          />
+        </Link>
+
         <Link to="/">
           <SidebarOption
             text="Global Chat "
@@ -85,10 +104,12 @@ function Sidebar(props: {
             Icon={<MessageIcon />}
           />
         </Link>
+
         <SidebarOption
-          text="Create "
+          text="Rules"
           expandSidebar={props.expandSidebar}
-          Icon={<AddCircleOutlineIcon />}
+          Icon={<Info />}
+          clickAction={() => dispatch(openPopup())}
         />
 
         <SidebarOption
@@ -113,17 +134,31 @@ function Sidebar(props: {
             Icon={<DarkMode />}
           />
         )}
+
+        <Link to="/create-post">
+          <SidebarOption
+            text="Create Post"
+            expandSidebar={props.expandSidebar}
+            Icon={<AddCircleOutlineIcon />}
+          />
+        </Link>
+
+        <Link to="/me">
+          <SidebarOption
+            text="Account "
+            expandSidebar={props.expandSidebar}
+            Icon={
+              <Avatar src={profilePic} className="!h-8 !w-8 lowercase">
+                {profileName ? profileName[0] + profileName[1] : null}
+              </Avatar>
+            }
+          />
+        </Link>
       </div>
 
       <div className={` mt-auto  ${props.expandSidebar ? " scale-110" : ""}`}>
         {" "}
-        <IconButton
-          onClick={() =>
-            props.setExpandSidebar((expandSidebar) =>
-              window.innerWidth > 1200 ? !expandSidebar : false
-            )
-          }
-        >
+        <IconButton onClick={openSidebar}>
           <MenuIcon />{" "}
         </IconButton>
       </div>

@@ -33,8 +33,9 @@ function Users(props: { search: any }) {
         })
       : [];
 
+  //creates an array of all the routes so that the navigation can work
   finalList?.map((item) =>
-    allPaths.push(`users/${item?.data().name}/${item?.id}`)
+    allPaths.push(`profiles/${item?.data().name}/${item?.id}`)
   );
 
   //on default the array has %20 turns into a " "/space so i reversed that behviour
@@ -45,7 +46,7 @@ function Users(props: { search: any }) {
   const currentTab = routeMatch?.pattern?.path;
   const currentTabIndex = allPaths.indexOf(currentTab as string);
 
-  const skeletonArray = new Array(30).fill(1);
+  const skeletonArray = new Array(20).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
     <Tab
       key={index}
@@ -55,13 +56,11 @@ function Users(props: { search: any }) {
         minWidth: "70px",
       }}
       label={
-        <Skeleton variant="circular">
+        <Skeleton variant="circular" className="dark:!bg-zinc-700">
           <Avatar
             sx={{
               width: 45,
               height: 45,
-
-              backgroundColor: "rgba(63 63 70 )",
             }}
           />
         </Skeleton>
@@ -81,7 +80,7 @@ function Users(props: { search: any }) {
       label={
         //didnt make this a Link component because it has the weird link popup on the bottom left
         <div
-          onClick={() => navigate(`users/${user?.data().name}/${user?.id}`)}
+          onClick={() => navigate(`profiles/${user?.data().name}/${user?.id}`)}
           className="relative"
         >
           <div
@@ -94,7 +93,10 @@ function Users(props: { search: any }) {
           <Avatar
             sx={{ width: 45, height: 45 }}
             src={user?.data().profilepic}
-          />
+            className=" lowercase"
+          >
+            {user?.data().name[0] + user?.data().name[1]}
+          </Avatar>
         </div>
       }
     />
@@ -116,7 +118,7 @@ function Users(props: { search: any }) {
         scrollButtons
         className="!w-full"
         //+1 on currenttabindex cuz theres a globe at the 0 index
-        value={loading || currentTabIndex === -1 ? value : currentTabIndex}
+        value={loading ? value : currentTabIndex}
         onChange={handleChange}
         sx={{
           [`& .${tabsClasses.scrollButtons}`]: {

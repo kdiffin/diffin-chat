@@ -41,7 +41,7 @@
 }
 
 @layer base {
-  html:has(.dark) {
+  .dark {
     background-color: #27272a;
   }
 
@@ -56,12 +56,6 @@
   *::-webkit-scrollbar {
     width: 7px;
     height: 6px;
-  }
-
-  html:has(.dark) *::-webkit-scrollbar-track {
-    height: 10px;
-
-    background-color: rgb(39 39 42);
   }
 
   *::-webkit-scrollbar-thumb {
@@ -85,6 +79,9 @@
   .custom__bg {
     background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20' patternTransform='scale(1) rotate(15)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(240, 4%, 16%, 1)'/><path d='M 10,-2.55e-7 V 20 Z M -1.1677362e-8,10 H 20 Z'  stroke-width='0.5' stroke='hsla(240, 6%, 27%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,)' fill='url(%23a)'/></svg>");
   }
+  .row-span-12 {
+    grid-row: span 12 / span 12;
+  }
 
   .guaranteed-transition {
     transition: 500ms ease-in-out;
@@ -100,25 +97,46 @@
 
   .openSearchbar {
     opacity: 1;
+
     width: 42%;
+
     transition: opacity 0.5s, width 1s ease 0.5s;
   }
 
   .closeSearchbar {
-    width: 0;
+    width: 90px;
 
     opacity: 0;
     transition: width 1s, opacity 0.5s ease 0.8s;
   }
+
   .overflow-overlay {
     overflow: overlay;
   }
 
-  .chatInput__background:has(input:focus) {
-    background-color: rgb(82 82 91);
+  html:not(.dark) .chatInput__background:has(input:focus) {
+    @apply bg-zinc-200;
+  }
+
+  .dark .chatInput__background:has(input:focus) {
+    @apply bg-zinc-600;
   }
 
   .hover-info-container:has(.hover-info:hover) .info-tooltip {
     opacity: 100;
+  }
+
+  @media screen and (max-width: 1000px) {
+    .openSearchbar {
+      width: 62%;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .openSearchbar {
+      width: 72%;
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
   }
 }

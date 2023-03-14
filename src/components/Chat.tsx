@@ -25,7 +25,7 @@ function Chat() {
     messagesLoading,
     userLoading,
     sendPost,
-    user,
+    selfUserInfo,
     clearValueOfRef,
     onFileChange,
     imageUpload,
@@ -37,6 +37,8 @@ function Chat() {
     fileInputRef: fileInputRef,
     urlImageInputRef: urlImageInputRef,
   });
+
+  const user = selfUserInfo;
 
   const chatHTML = messagesRef.current;
 
@@ -65,7 +67,7 @@ function Chat() {
     chatHTML!.scrollTop = chatHTML!.scrollHeight;
   }
 
-  const skeletonArray = new Array(20).fill(1);
+  const skeletonArray = new Array(10).fill(1);
   const loadingPlaceholder = skeletonArray.map((skeleton, index) => (
     <div className="mt-5 flex" key={index}>
       <Skeleton
@@ -124,8 +126,10 @@ function Chat() {
           ) : (
             <Avatar
               src={message.data().profilePic}
-              className="col-span-full mr-4  !h-10 !w-10"
-            />
+              className="col-span-full mr-4  !h-10 !w-10 lowercase"
+            >
+              {message.data().name[0] + message.data().name[1]}
+            </Avatar>
           )}
 
           <div className="flex flex-col">

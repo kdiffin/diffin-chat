@@ -15,9 +15,12 @@ import "./index.css";
 import Errorpage from "./routes/Errorpage";
 import Chat from "./components/Chat";
 import Login from "./routes/Login";
-import UserChat from "./routes/UserChat";
+import Profile from "./routes/Profile";
 import { Provider } from "react-redux";
 import { loader as appLoader } from "./routes/App";
+import EditProfile from "./routes/EditProfile";
+import CreatePost from "./routes/CreatePost";
+import AllPosts from "./routes/AllPosts";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -31,10 +34,14 @@ const router = createBrowserRouter(
         errorElement={<Errorpage />}
       >
         <Route errorElement={<Errorpage chatError />}>
-          <Route path="users/:userName/:userId" element={<UserChat />} />
           <Route index element={<Chat />} />
+          <Route path="profiles/:userName/:userId" element={<Profile />} />
+          <Route path="me" element={<EditProfile />} />
+          <Route path="create-post" element={<CreatePost />} />
+          <Route path="all-posts" element={<AllPosts />} />
         </Route>
       </Route>
+
       <Route
         path="/login"
         element={<Login />}

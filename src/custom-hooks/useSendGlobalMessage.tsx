@@ -1,6 +1,10 @@
 import { v4 } from "uuid";
 import { User } from "firebase/auth";
-import { DocumentData, QuerySnapshot } from "firebase/firestore";
+import {
+  DocumentData,
+  DocumentSnapshot,
+  QuerySnapshot,
+} from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { RefObject, SetStateAction, useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -12,6 +16,7 @@ import {
   firebaseApp,
   firebaseStorage,
 } from "../firebase";
+import useGetActualUser from "./useGetActualUser";
 
 function useSendGlobalMessage(props: {
   containerRefValue: RefObject<HTMLDivElement>;
@@ -24,7 +29,7 @@ function useSendGlobalMessage(props: {
   messagesLoading: boolean;
   userLoading: boolean;
   sendPost: (e: { preventDefault: () => void }) => void;
-  user: User | null | undefined;
+  selfUserInfo: DocumentSnapshot<DocumentData> | undefined;
   clearValueOfRef(ref: HTMLInputElement | null): void;
   onFileChange(e: { target: { files: any[] } }): void;
   setImageUpload: React.Dispatch<React.SetStateAction<null | File>>;
@@ -47,7 +52,10 @@ function useSendGlobalMessage(props: {
   const urlImageInputRef = props.urlImageInputRef.current;
 
   //user thats logged in rn
-  const [user, userLoading] = useAuthState(firebaseAuth as any);
+  const { selfUserInfo, profileName, profilePic, selfUserInfoLoading } =
+    useGetActualUser();
+
+  const userLoading = selfUserInfoLoading;
   const [messages, messagesLoading, error] = useCollection(
     firebaseDb
       .collection(props.collectionName)
@@ -150,10 +158,10 @@ function useSendGlobalMessage(props: {
             .collection(props.collectionName)
             .add({
               message: inputValue,
-              name: user?.displayName,
+              name: profileName,
               messageImg: imageUrl,
-              usersID: user?.uid,
-              profilePic: user?.photoURL,
+              usersID: selfUserInfo?.id,
+              profilePic: profilePic,
               timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             })
             .then(() => scrollToBottom())
@@ -170,10 +178,10 @@ function useSendGlobalMessage(props: {
       .collection(props.collectionName)
       .add({
         message: inputValue,
-        name: user?.displayName,
+        name: profileName,
         messageImg: imageURLValue || "",
-        usersID: user?.uid,
-        profilePic: user?.photoURL,
+        usersID: selfUserInfo?.id,
+        profilePic: profilePic,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       })
       .then(() => scrollToBottom());
@@ -185,18 +193,14 @@ function useSendGlobalMessage(props: {
 
   useEffect(() => {
     !userLoading && !messagesLoading ? scrollToBottom() : "";
-  }, [messages]);
-
-  useEffect(() => {
-    !userLoading && !messagesLoading ? scrollToBottom() : "";
-  }, [messagesLoading]);
+  }, [messages, messagesLoading]);
 
   return {
     messages,
     messagesLoading,
     userLoading,
     sendPost,
-    user,
+    selfUserInfo,
     clearValueOfRef,
     onFileChange,
     imageUpload,

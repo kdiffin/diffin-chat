@@ -11,18 +11,18 @@ function SidebarOption(props: {
   return (
     <div
       onClick={props.clickAction}
-      className={` mt-6 flex group relative  cursor-pointer     ${
+      className={` group relative mt-6 flex  cursor-pointer     ${
         props.expandSidebar ? " scale-110  active:scale-105" : ""
       } items-center`}
     >
       {" "}
       <IconButton>{props.Icon}</IconButton>
       {props.expandSidebar ? (
-        <p className="active:scale-90 text-sm cursor-pointer">{props.text}</p>
+        <p className="cursor-pointer text-sm active:scale-90">{props.text}</p>
       ) : (
         <div
-          className="hidden group-hover:flex  min-w-max   px-3 p-2 rounded-md 
-        absolute items-center ml-14 dark:bg-zinc-900 bg-zinc-200 z-10  "
+          className="absolute z-50   ml-14   hidden min-w-max items-center 
+        rounded-md bg-zinc-200 p-2 px-3 group-hover:flex dark:bg-zinc-900  "
         >
           {props.text}
         </div>

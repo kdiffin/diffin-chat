@@ -6,7 +6,8 @@ import { Button } from "@mui/material";
 import { firebaseAuth, firebaseDb, firebaseProvider } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useCollection } from "react-firebase-hooks/firestore";
+import { useCollection, useDocument } from "react-firebase-hooks/firestore";
+import useGetActualUser from "../custom-hooks/useGetActualUser";
 
 function Login() {
   const [userAccount, loading] = useAuthState(firebaseAuth as any);
@@ -16,16 +17,26 @@ function Login() {
 
   function login(e: { preventDefault: () => void }) {
     e.preventDefault();
-    firebaseAuth
-      .signInWithPopup(firebaseProvider)
-      .then(({ user }) =>
-        firebaseDb.collection("users").doc(user?.uid).set({
-          name: user?.displayName,
-          profilepic: user?.photoURL,
-        })
-      )
 
-      .catch((error) => alert(error.message));
+    firebaseAuth.signInWithPopup(firebaseProvider).then(({ user }) =>
+      firebaseDb
+        .collection("users")
+        .doc(user?.uid)
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            navigate("/");
+          } else {
+            firebaseDb.collection("users").doc(user?.uid).set(
+              {
+                name: user?.displayName,
+                profilepic: user?.photoURL,
+              },
+              { merge: true }
+            );
+          }
+        })
+    );
   }
 
   useEffect(() => {

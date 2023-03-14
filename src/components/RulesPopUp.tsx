@@ -1,8 +1,6 @@
 import { Close, GitHub } from "@mui/icons-material";
 import {
-  Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -28,7 +26,7 @@ function RulesPopUp({
   }) {
     return (
       <>
-        <p className="p-2 text-lg">{props.children}</p>
+        <div className="p-2 text-lg">{props.children}</div>
         <Divider
           sx={{
             background: " rgb(69 69 70);",
@@ -36,6 +34,14 @@ function RulesPopUp({
         />
       </>
     );
+  }
+
+  function ListContainer(props: {
+    children:
+      | React.ReactFragment
+      | React.ReactElement<React.JSXElementConstructor<any>>;
+  }) {
+    return <div className=" flex flex-col gap-2 p-4">{props.children}</div>;
   }
 
   const [user, userLoading] = useAuthState(firebaseAuth as any);
@@ -51,10 +57,10 @@ function RulesPopUp({
       aria-describedby="scroll-dialog-description"
     >
       <DialogTitle
-        className=" zincbg  relative flex items-center justify-between  !text-2xl text-zinc-300  "
+        className=" dark:zincbg  relative flex items-center justify-between  bg-zinc-200 !text-2xl text-zinc-800 dark:text-zinc-300  "
         id="scroll-dialog-title"
       >
-        Welcome {userLoading ? "..." : user?.displayName}, whats up!
+        Hey {userLoading ? "..." : user?.displayName}!
         <IconButton onClick={closePopUp}>
           <Close className="   !text-white"></Close>
         </IconButton>
@@ -65,18 +71,18 @@ function RulesPopUp({
         sx={{
           borderTopColor: " rgb(69 69 70);",
         }}
-        className="zincbg "
+        className="dark:zincbg bg-zinc-200 "
       >
         <DialogContentText
           id="scroll-dialog-description"
-          className="!text-zinc-300"
+          className="!text-zinc-800 dark:!text-zinc-300"
           tabIndex={-1}
         >
           <p className="mb-2 text-xl ">
             Some things to be aware of before proceeding:
           </p>
 
-          <div className="flex flex-col gap-2 p-3">
+          <ListContainer>
             <div>
               <p className="text-lg">
                 This site is a work in progress! if you have any bugs you want
@@ -129,14 +135,6 @@ function RulesPopUp({
             </ParagraphComponent>
 
             <ParagraphComponent>
-              Not all buttons may be responsive or work, this design currently
-              is a shell
-              <p className="mt-1 ml-3 w-3/4 text-sm italic text-zinc-600">
-                (if u want a feature to be added tho lmk)
-              </p>
-            </ParagraphComponent>
-
-            <ParagraphComponent>
               Just because the rules didnt say so, doesn't mean its ok to do it
             </ParagraphComponent>
 
@@ -150,7 +148,20 @@ function RulesPopUp({
             </ParagraphComponent>
 
             <ParagraphComponent>* Some boring rules *</ParagraphComponent>
-          </div>
+          </ListContainer>
+
+          <p className="mb-2 mt-2 text-xl ">
+            Shortcuts you should be aware of:{" "}
+          </p>
+
+          <ListContainer>
+            <ParagraphComponent>
+              CTRL + ": opens up the searchbar and focuses it
+            </ParagraphComponent>
+            <ParagraphComponent>
+              ESC: automatically scrolls chat down to bottom // closes popup
+            </ParagraphComponent>
+          </ListContainer>
         </DialogContentText>
       </DialogContent>
     </Dialog>

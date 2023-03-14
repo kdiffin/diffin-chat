@@ -1,12 +1,16 @@
 import { DeleteOutline } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { User } from "firebase/auth";
-import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
-import React from "react";
+import {
+  DocumentData,
+  DocumentSnapshot,
+  QueryDocumentSnapshot,
+} from "firebase/firestore";
+import React, { memo } from "react";
 
-function Message(props: {
+const Message = memo(function Message(props: {
   message: QueryDocumentSnapshot<DocumentData>;
-  user: User | null | undefined;
+  user: DocumentSnapshot<DocumentData> | undefined;
   deleteMessage: (args: any) => void;
   messageBelowName?: boolean;
   showImage: boolean;
@@ -26,7 +30,7 @@ function Message(props: {
         )}
       </div>
 
-      {props.message.data().usersID === props.user?.uid && (
+      {props.message.data().usersID === props.user?.id && (
         <div
           onClick={() => props.deleteMessage(props.message.id)}
           className={`active:scale-95 group-hover:opacity-100 
@@ -40,6 +44,6 @@ function Message(props: {
       )}
     </div>
   );
-}
+});
 
 export default Message;

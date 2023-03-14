@@ -1,19 +1,11 @@
-import React, {
+import {
   Dispatch,
-  forwardRef,
   MouseEventHandler,
   RefObject,
   SetStateAction,
-  useRef,
   useState,
 } from "react";
-import {
-  Add,
-  Clear,
-  Create,
-  Link as MUILinkIcon,
-  Photo,
-} from "@mui/icons-material";
+import { Clear, Link as MUILinkIcon, Photo } from "@mui/icons-material";
 import { Button, IconButton } from "@mui/material";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
@@ -33,6 +25,7 @@ function ChatFooter(
   const [showUploadImage, setShowUploadImage] = useState(false);
   const [showImagePreview, setShowImagePreview] = useState(false);
   const [showSendURLImage, setShowSendURLImage] = useState(false);
+
   return (
     <div
       className=" sticky bottom-0 z-10  flex  items-center  justify-center
@@ -72,6 +65,7 @@ function ChatFooter(
                   className="flex-1 rounded-md bg-transparent  p-2 text-sm
                      font-semibold outline-none placeholder:text-xs placeholder:italic 
                     placeholder:text-zinc-500 "
+                  type="url"
                   placeholder="Paste img URL here"
                   ref={props.imageInputRef}
                 />
@@ -80,34 +74,34 @@ function ChatFooter(
 
             {showUploadImage ? (
               <div className=" absolute  -top-28 left-0 rounded-lg bg-zinc-300 text-zinc-800 dark:bg-zinc-900 dark:text-white">
-                <button
+                <Button
                   onClick={(e) => {
                     e.preventDefault();
                     setShowUploadImage(false);
                     setShowSendURLImage(true);
                   }}
-                  className="flex   cursor-pointer select-none 
-                   items-center !p-3 active:scale-95  "
+                  className="flex  cursor-pointer select-none  items-center !p-3 
+                   !lowercase !text-zinc-800 dark:!text-white "
                 >
                   <MUILinkIcon fontSize="small"></MUILinkIcon>
-                  <p className="ml-1  text-sm">Upload image by URL</p>
-                </button>
+                  <p className="ml-1   text-sm">Upload image by URL</p>
+                </Button>
 
                 <hr className="h-[0.1px] border-none bg-white dark:bg-zinc-700" />
 
-                <button
+                <Button
                   onClick={(e) => {
                     e.preventDefault();
                     props.fileInputRef?.current?.click();
                     setShowUploadImage(false);
                     setShowImagePreview(true);
                   }}
-                  className="flex   cursor-pointer select-none 
-                   items-center !p-3 active:scale-95  "
+                  className="flex   cursor-pointer select-none items-center !p-3  !lowercase 
+                   !text-zinc-800 active:scale-95 dark:!text-white  "
                 >
                   <InsertDriveFileIcon fontSize="small"></InsertDriveFileIcon>
                   <p className="ml-1  text-sm">Upload image by file</p>
-                </button>
+                </Button>
               </div>
             ) : null}
 
