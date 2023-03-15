@@ -132,7 +132,7 @@ function Chat() {
                 src={message.data().profilePic}
                 className="col-span-full mr-4  !h-10 !w-10 lowercase"
               >
-                {message.data().name[0] + message.data().name[1]}
+                {message.data().name[0] + message.data().name[1] || ""}
               </Avatar>
             </Link>
           )}
@@ -148,7 +148,14 @@ function Chat() {
               />
             ) : (
               <>
-                <p>{message.data().name} </p>
+                <Link
+                  to={`profiles/${message.data().name}/${
+                    message.data().usersID
+                  }`}
+                >
+                  <p>{message.data().name} </p>
+                </Link>
+
                 <Message
                   message={message}
                   user={user}

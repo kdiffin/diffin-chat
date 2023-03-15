@@ -5,7 +5,9 @@ import Post from "../components/ui/Post";
 import useGetActualUser from "../custom-hooks/useGetActualUser";
 import { useNavigate } from "react-router-dom";
 import { nanoid } from "nanoid";
-import { firebaseDb, firebase } from "../firebase";
+import { firebaseDb, firebase, firebaseStorage } from "../firebase";
+import { v4 } from "uuid";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 function InputField(props: {
   inputOnChange: Dispatch<SetStateAction<string>>;
@@ -48,7 +50,16 @@ function CreatePost() {
     let rowSpan = "row-span-1";
 
     if ((postImage || postImageURL) && postParagraph.length >= 300) {
-      rowSpan = "row-span-7";
+      rowSpan = "row-span-6";
+      return rowSpan;
+    }
+
+    if (
+      (postImage || postImageURL) &&
+      postParagraph.length <= 50 &&
+      postParagraph
+    ) {
+      rowSpan = "row-span-3";
       return rowSpan;
     }
 
@@ -62,7 +73,7 @@ function CreatePost() {
     }
 
     if ((postImage || postImageURL) && postParagraph.length >= 200) {
-      rowSpan = "row-span-6";
+      rowSpan = "row-span-5";
       return rowSpan;
     }
 
@@ -94,7 +105,7 @@ function CreatePost() {
 
     const rowSpanOfPost = definerowSpan();
     // when we set the two different databases we want them to have the same ids on the submitted post,
-    //because then deleting one of them also makes it easy to delete the other one in the database
+    // because then deleting one of them also makes it easy to delete the other one in the database
     const idOfPost = nanoid();
 
     if (postTitle.length > 80) {
@@ -124,28 +135,55 @@ function CreatePost() {
       return;
     }
 
+    //we're gonna use this for both image upload functions
+
     //same logic  as editprofile
     if (postImage) {
-      selfUserInfoRef
-        ?.collection("posts")
-        .doc(idOfPost)
-        .set({
-          title: postTitle,
-          image: URL.createObjectURL(postImage),
-          bottomText: postBottomText,
-          rowSpan: rowSpanOfPost,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          paragraph: postParagraph,
-          userId: selfUserId,
-        })
-        .then(navigate(`/profiles/${profileName}/${selfUserId}`));
+      let imageUrl = "";
+      const imageName = `postPictures/${postImage.name + v4()}`;
+      const imageRef = ref(firebaseStorage, imageName);
+
+      //same logic as the useSendGlobalMessage hook
+      uploadBytes(imageRef, postImage)
+        .then(() =>
+          getDownloadURL(ref(firebaseStorage, imageName)).then((url) => {
+            imageUrl = url;
+          })
+        )
+        .then(() =>
+          selfUserInfoRef
+            ?.collection("posts")
+            .doc(idOfPost)
+            .set({
+              title: postTitle,
+              image: imageUrl,
+              bottomText: postBottomText,
+              rowSpan: rowSpanOfPost,
+              timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+              paragraph: postParagraph,
+              userId: selfUserId,
+            })
+            .then(() =>
+              firebaseDb.collection("allPosts").doc(idOfPost).set({
+                title: postTitle,
+                profilePic: profilePic,
+                profileName: profileName,
+                image: imageUrl,
+                bottomText: postBottomText,
+                rowSpan: rowSpanOfPost,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                paragraph: postParagraph,
+                userId: selfUserId,
+              })
+            )
+            .then(navigate(`/profiles/${profileName}/${selfUserId}`))
+        );
     } else {
       selfUserInfoRef
         ?.collection("posts")
         .doc(idOfPost)
         .set({
           title: postTitle,
-
           image: postImageURL,
           bottomText: postBottomText,
           rowSpan: rowSpanOfPost,
@@ -157,27 +195,13 @@ function CreatePost() {
     }
 
     if (postImage) {
-      firebaseDb
-        .collection("allPosts")
-        .doc(idOfPost)
-        .set({
-          title: postTitle,
-          profilePic: profilePic,
-          profileName: profileName,
-          image: URL.createObjectURL(postImage),
-          bottomText: postBottomText,
-          rowSpan: rowSpanOfPost,
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-          paragraph: postParagraph,
-          userId: selfUserId,
-        });
+      return;
     } else {
       firebaseDb.collection("allPosts").doc(idOfPost).set({
         title: postTitle,
         image: postImageURL,
         profilePic: profilePic,
         profileName: profileName,
-
         bottomText: postBottomText,
         rowSpan: rowSpanOfPost,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),

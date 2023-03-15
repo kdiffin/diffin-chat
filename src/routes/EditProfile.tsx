@@ -8,11 +8,13 @@ import React, {
   useState,
 } from "react";
 import useGetActualUser from "../custom-hooks/useGetActualUser";
-import { firebaseDb } from "../firebase";
+import { firebaseDb, firebaseStorage } from "../firebase";
 import Input from "../components/ui/Input";
 import { Link } from "react-router-dom";
 import CustomButton from "../components/ui/CustomButton";
 import Post from "../components/ui/Post";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 
 function EditProfile() {
   const {
@@ -61,9 +63,128 @@ function EditProfile() {
       alert("name too long");
       return;
     }
-
     const trimmedInput = newName?.trim();
     const nameList = trimmedInput!.split(" ");
+
+    if (profilePicUpload && bannerUpload) {
+      let bannerUrl = "";
+      let profilePicUrl = "";
+
+      const bannerName = `profiles/banners/${bannerUpload.name + v4()}`;
+      const bannerRef = ref(firebaseStorage, bannerName);
+
+      const profilePicName = `profiles/profile-pics/${
+        profilePicUpload.name + v4()
+      }`;
+      const profilePicRef = ref(firebaseStorage, profilePicName);
+
+      //same logic as the useSendGlobalMessage hook
+      uploadBytes(bannerRef, bannerUpload)
+        .then(() =>
+          getDownloadURL(ref(firebaseStorage, bannerName)).then((url) => {
+            bannerUrl = url;
+          })
+        )
+        .then(() =>
+          uploadBytes(profilePicRef, profilePicUpload).then(() =>
+            getDownloadURL(ref(firebaseStorage, profilePicName))
+              .then((url) => {
+                profilePicUrl = url;
+              })
+              .then(() =>
+                firebaseDb
+                  .collection("users")
+                  .doc(selfUserInfo?.id)
+                  .set(
+                    {
+                      ...(!(newName === "" || nameList[0] === "") && {
+                        name: newName,
+                      }),
+                      ...(bannerUpload && {
+                        banner: bannerUrl,
+                      }),
+
+                      ...(profilePicUpload && {
+                        profilepic: profilePicUrl,
+                      }),
+                    },
+                    { merge: true }
+                  )
+              )
+          )
+        );
+
+      return;
+    }
+
+    if (bannerUpload) {
+      let imageUrl = "";
+      const imageName = `profiles/banners/${bannerUpload.name + v4()}`;
+      const imageRef = ref(firebaseStorage, imageName);
+      uploadBytes(imageRef, bannerUpload)
+        .then(() =>
+          getDownloadURL(ref(firebaseStorage, imageName)).then((url) => {
+            imageUrl = url;
+          })
+        )
+        .then(() =>
+          firebaseDb
+            .collection("users")
+            .doc(selfUserInfo?.id)
+            .set(
+              {
+                //this code is absolutely insane and probably shouldnt be used i know, but ill try to explain it
+                //when the spread operator returns a false-y value it defaults to {}
+                //if the condition is true then it spreads out the right side of the condition
+                ...(!(newName === "" || nameList[0] === "") && {
+                  name: newName,
+                }),
+                ...(!(newProfilePhoto === "") && {
+                  profilepic: newProfilePhoto,
+                }),
+
+                ...(bannerUpload && {
+                  banner: imageUrl,
+                }),
+              },
+              { merge: true }
+            )
+        );
+    }
+
+    if (profilePicUpload) {
+      //ngl if i ever need to copy paste one of these again im making it a hook cuz its the same stuff over n over again
+      let imageUrl = "";
+      const imageName = `profiles/profile-pics/${profilePicUpload.name + v4()}`;
+      const imageRef = ref(firebaseStorage, imageName);
+
+      uploadBytes(imageRef, profilePicUpload)
+        .then(() =>
+          getDownloadURL(ref(firebaseStorage, imageName)).then((url) => {
+            imageUrl = url;
+          })
+        )
+        .then(() =>
+          firebaseDb
+            .collection("users")
+            .doc(selfUserInfo?.id)
+            .set(
+              {
+                //this code is absolutely insane and probably shouldnt be used i know, but ill try to explain it
+                //when the spread operator returns a false-y value it defaults to {}
+                //if the condition is true then it spreads out the right side of the condition
+                ...(!(newName === "" || nameList[0] === "") && {
+                  name: newName,
+                }),
+                ...(!(newBanner === "") && { banner: newBanner }),
+                ...(profilePicUpload && {
+                  profilepic: imageUrl,
+                }),
+              },
+              { merge: true }
+            )
+        );
+    }
 
     firebaseDb
       .collection("users")
@@ -76,14 +197,6 @@ function EditProfile() {
           ...(!(newName === "" || nameList[0] === "") && { name: newName }),
           ...(!(newBanner === "") && { banner: newBanner }),
           ...(!(newProfilePhoto === "") && { profilepic: newProfilePhoto }),
-
-          ...(bannerUpload && {
-            banner: URL.createObjectURL(bannerUpload as any),
-          }),
-
-          ...(profilePicUpload && {
-            profilepic: URL.createObjectURL(profilePicUpload as any),
-          }),
         },
         { merge: true }
       );

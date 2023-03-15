@@ -24,9 +24,9 @@ function SearchUser() {
     <div className="">
       <Form
         className={`${showSearchbar ? " openSearchbar " : " closeSearchbar  "} 
-        chatInput__background hover-info-container  absolute  top-5 left-1/2 z-50 flex 
-        w-full -translate-x-1/2 items-center  rounded-md  bg-zinc-300
-        p-1 px-5 dark:bg-zinc-700 dark:shadow-md dark:shadow-zinc-800 `}
+        chatInput__background hover-info-container    absolute top-6 left-1/2 z-50 
+        flex w-full -translate-x-1/2  items-center  rounded-md
+        bg-zinc-300 px-5 dark:bg-zinc-700 dark:shadow-md dark:shadow-zinc-800 `}
         id="search-form"
         action={`${location.pathname || ""}?search=${search}`}
         role="search"
@@ -48,7 +48,7 @@ function SearchUser() {
         ></Input>
         <Info className="hover-info  cursor-help  !text-[20px] italic text-zinc-400 dark:text-zinc-500" />
         <div
-          className="info-tooltip   dark:zincbg absolute  top-12 right-0 z-10 mt-2 min-w-max items-center 
+          className="info-tooltip dark:zincbg pointer-events-none absolute top-12 right-0  z-10 mt-2 min-w-max cursor-none select-none items-center 
         rounded-md bg-zinc-200 p-2 px-3 text-sm italic text-zinc-800 opacity-0 transition-all duration-300 dark:text-zinc-300  "
         >
           to automatically use the searchbar, use ctrl+"

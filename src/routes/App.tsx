@@ -45,10 +45,10 @@ function App() {
   const navigate = useNavigate();
   const search: any = useLoaderData();
 
-  //todo: post deleting
   //todo: custom alert - not done
   //todo: add private messaging - not done
   //todo: markdown on sending messages - not done
+  //todo: message replying
   //todo: right click on user to view profile or go to message - not done
   //todo: add lazy loading - not done
   //todo: add message notification - not done

@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import useGetActualUser from "../../custom-hooks/useGetActualUser";
 import { Avatar, IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const Post = memo(function Post(props: {
   title: string | undefined;
@@ -21,7 +22,7 @@ const Post = memo(function Post(props: {
     <div
       className={
         props.className +
-        " dark:zincbg group mt-4 flex flex-col break-all rounded-md bg-zinc-200 p-4 "
+        " dark:zincbg group mt-4 flex flex-col  justify-center break-all rounded-md bg-zinc-200 p-4 "
       }
     >
       <div className="flex w-full items-center justify-between">
@@ -49,7 +50,11 @@ const Post = memo(function Post(props: {
 
       {!(props.image === "") ? (
         <div className="flex h-[250px] w-full items-center justify-center">
-          <img src={props.image} className="   h-full w-full object-cover  " />
+          <img
+            src={props.image}
+            className="   h-full w-full object-cover  "
+            loading="lazy"
+          />
         </div>
       ) : null}
 
@@ -65,7 +70,10 @@ const Post = memo(function Post(props: {
         }  justify-between`}
       >
         {props.allPostsPost ? (
-          <div className="flex items-center  py-1">
+          <Link
+            to={`/profiles/${props.profileName}/${props.userId}`}
+            className="flex items-center  py-1"
+          >
             <Avatar
               src={props.profilePic}
               className="col-span-full mr-2  !h-8 !w-8  lowercase"
@@ -74,7 +82,7 @@ const Post = memo(function Post(props: {
             </Avatar>
 
             <p className="text-sm"> {props.profileName}</p>
-          </div>
+          </Link>
         ) : null}
         <p className="py-2 text-xs italic text-zinc-500">{props.date}</p>
       </div>
