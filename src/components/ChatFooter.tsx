@@ -5,7 +5,7 @@ import {
   SetStateAction,
   useState,
 } from "react";
-import { Clear, Link as MUILinkIcon, Photo } from "@mui/icons-material";
+import { Clear, Link as MUILinkIcon, Photo, Send } from "@mui/icons-material";
 import { Button, IconButton } from "@mui/material";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
@@ -113,9 +113,13 @@ function ChatFooter(
               hidden
             />
 
-            <button type="submit" className=" hidden" onClick={props.sendPost}>
-              send
-            </button>
+            <IconButton
+              type="submit"
+              className=" flex sm:opacity-0"
+              onClick={props.sendPost}
+            >
+              <Send />
+            </IconButton>
           </form>
         </div>
 
