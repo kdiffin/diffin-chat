@@ -97,7 +97,7 @@ function App() {
   return (
     <div
       className={` guaranteed-transition app menu relative h-screen
-       bg-zinc-200/50 text-zinc-700  dark:bg-zinc-800  dark:text-white [&>*]:transition [&>*]:duration-500
+       bg-zinc-200/50 text-zinc-700  dark:bg-zinc-800  dark:text-white 
       ${expandSidebar ? "openSidebar" : "closedSidebar"}  `}
     >
       <Sidebar

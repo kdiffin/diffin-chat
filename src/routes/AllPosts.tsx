@@ -12,6 +12,7 @@ import CustomButton from "../components/ui/CustomButton";
 import Post from "../components/ui/Post";
 import useGetActualUser from "../custom-hooks/useGetActualUser";
 import { Button } from "@mui/material";
+import PostsLoading from "../components/PostsLoading";
 
 function AllPosts() {
   const [filter, setFilter] = useState("desc");
@@ -94,22 +95,28 @@ function AllPosts() {
       </div>
 
       <div className=" grid grid-flow-dense  justify-center gap-5 p-7 sm:grid-cols-2   xl:grid-cols-3 2xl:grid-cols-4 ">
-        {allPosts?.docs.map((post) => (
-          <Post
-            profilePic={post.data().profilePic || ""}
-            profileName={post.data().profileName || "no name"}
-            allPostsPost={true}
-            title={post.data().title}
-            className={post.data().rowSpan}
-            userId={post.data().userId}
-            image={post.data().image}
-            deletePost={() => deletePost(post.id)}
-            bottomText={post.data().bottomText}
-            paragraph={post.data().paragraph}
-            key={post.id}
-            date={new Date(post.data().timestamp?.seconds * 1000).toUTCString()}
-          />
-        ))}
+        {allPostsLoading ? (
+          <PostsLoading />
+        ) : (
+          allPosts?.docs.map((post) => (
+            <Post
+              profilePic={post.data().profilePic || ""}
+              profileName={post.data().profileName || "no name"}
+              allPostsPost={true}
+              title={post.data().title}
+              className={post.data().rowSpan}
+              userId={post.data().userId}
+              image={post.data().image}
+              deletePost={() => deletePost(post.id)}
+              bottomText={post.data().bottomText}
+              paragraph={post.data().paragraph}
+              key={post.id}
+              date={new Date(
+                post.data().timestamp?.seconds * 1000
+              ).toUTCString()}
+            />
+          ))
+        )}
       </div>
     </div>
   );

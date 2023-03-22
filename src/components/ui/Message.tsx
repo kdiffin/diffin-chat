@@ -18,7 +18,7 @@ const Message = memo(function Message(props: {
   return (
     <div className=" group flex  items-center gap-3">
       <div
-        className={`flex h-auto flex-col items-center  break-all rounded-md bg-zinc-200 p-4 dark:bg-zinc-700/40
+        className={`flex h-auto flex-col items-center break-all  rounded-md bg-zinc-200 p-4 dark:bg-zinc-700/40
         ${props.messageBelowName ? "mt-3" : "ml-[55px]"} 
         ${props.showImage ? `max-w-[350px] ` : "max-w-[1000px]"} `}
       >
